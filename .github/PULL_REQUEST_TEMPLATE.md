@@ -1,0 +1,29 @@
+## 📎 Related issues
+
+-   resolve #
+
+## 📌 Summary
+
+<!-- 이 PR에서 무엇이 바뀌었는지 한 줄 요약 -->
+
+## 🧠 Context
+
+<!-- 왜 이 변경이 필요한지 -->
+
+## 🔍 Changes
+
+-
+-
+-
+
+## ⚠️ Impact
+
+-   [ ] Breaking Change
+-   [ ] Versioning 영향 있음 (major / minor / patch)
+-   [ ] 내부 리팩토링만 포함
+
+## ✅ Checklist
+
+-   [ ] 요구사항 명세 충족
+-   [ ] 테스트 추가 / 수정
+-   [ ] deterministic output 확인
