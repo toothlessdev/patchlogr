@@ -33,6 +33,7 @@
         "esbuild": "0.27.2",
         "turbo": "2.7.2",
         "typescript": "5.9.3",
-        "vitest": "4.0.16"
+        "vitest": "4.0.16",
+        "openapi-types": "12.1.3"
     }
 }

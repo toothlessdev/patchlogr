@@ -25,6 +25,7 @@
         "lint": "eslint ."
     },
     "dependencies": {
+        "@apidevtools/swagger-parser": "^12.1.0",
         "@patchlogr/oas": "workspace:*"
     },
     "devDependencies": {

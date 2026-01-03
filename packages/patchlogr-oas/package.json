@@ -5,9 +5,14 @@
         "access": "public"
     },
     "scripts": {
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "test": "vitest"
     },
     "devDependencies": {
+        "openapi-types": "^12.1.3",
         "vitest": "workspace:*"
+    },
+    "dependencies": {
+        "@apidevtools/swagger-parser": "^12.1.0"
     }
 }
