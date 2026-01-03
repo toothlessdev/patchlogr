@@ -1,0 +1,13 @@
+{
+    "name": "@patchlogr/oas",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "lint": "eslint ."
+    },
+    "devDependencies": {
+        "vitest": "workspace:*"
+    }
+}

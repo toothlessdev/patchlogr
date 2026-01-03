@@ -1,0 +1,24 @@
+{
+    "name": "@patchlogr/cli",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "scripts": {
+        "clean": "rm -rf dist",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+        "build:js": "node ./esbuild.mjs",
+        "build": "yarn clean && yarn build:types && yarn build:js",
+        "test": "vitest",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@patchlogr/core": "workspace:*"
+    },
+    "devDependencies": {
+        "esbuild": "workspace:*",
+        "typescript": "workspace:*",
+        "vitest": "workspace:*"
+    }
+}

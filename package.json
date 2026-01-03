@@ -1,0 +1,38 @@
+{
+    "name": "patchlogr",
+    "private": true,
+    "packageManager": "yarn@4.12.0",
+    "workspaces": [
+        "packages/*"
+    ],
+    "scripts": {
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "test": "turbo run test",
+        "lint": "turbo run lint",
+        "typecheck": "turbo run typecheck",
+        "clean": "turbo run clean && rm -rf node_modules .turbo"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.39.2",
+        "@types/node": "^25.0.3",
+        "@typescript-eslint/eslint-plugin": "^8.51.0",
+        "@typescript-eslint/parser": "^8.51.0",
+        "esbuild": "0.27.2",
+        "eslint": "^9.39.2",
+        "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-prettier": "^5.5.4",
+        "globals": "^17.0.0",
+        "prettier": "^3.7.4",
+        "turbo": "2.7.2",
+        "typescript": "5.9.3",
+        "typescript-eslint": "^8.51.0",
+        "vitest": "^4.0.16"
+    },
+    "resolutions": {
+        "esbuild": "0.27.2",
+        "turbo": "2.7.2",
+        "typescript": "5.9.3",
+        "vitest": "4.0.16"
+    }
+}

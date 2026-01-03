@@ -1,0 +1,35 @@
+{
+    "name": "@patchlogr/core",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "type": "module",
+    "main": "./dist/index.cjs",
+    "module": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "types": "./dist/index.d.ts",
+            "require": "./dist/index.cjs",
+            "import": "./dist/index.js"
+        }
+    },
+    "scripts": {
+        "clean": "rm -rf dist",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
+        "build:js": "node ./esbuild.mjs",
+        "build": "yarn clean && yarn build:types && yarn build:js",
+        "test": "vitest",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@patchlogr/oas": "workspace:*"
+    },
+    "devDependencies": {
+        "esbuild": "workspace:*",
+        "typescript": "workspace:*",
+        "vitest": "workspace:*"
+    }
+}
