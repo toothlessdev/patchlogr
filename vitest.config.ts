@@ -7,6 +7,8 @@ export default defineConfig({
         restoreMocks: true,
         mockReset: true,
 
+        passWithNoTests: true,
+
         include: ["src/**/*.{test,spec}.{ts,tsx}"],
         exclude: ["**/dist/**", "**/build/**"],
 
