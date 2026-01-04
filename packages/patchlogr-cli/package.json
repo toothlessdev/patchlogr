@@ -17,8 +17,9 @@
         "@patchlogr/core": "workspace:*"
     },
     "devDependencies": {
-        "esbuild": "workspace:*",
-        "typescript": "workspace:*",
-        "vitest": "workspace:*"
+        "@types/node": "24",
+        "esbuild": "^0.27.2",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.16"
     }
 }
