@@ -9,20 +9,30 @@ export type HTTPMethod =
 
 export type OperationKey = `${HTTPMethod} ${string}`;
 
-export type JSONSchema = Record<string, unknown>;
+export type CanonicalSchema = {
+    type?: string;
+    format?: string;
+    properties?: Record<string, CanonicalSchema & { required?: boolean }>;
+    items?: CanonicalSchema;
+    enum?: unknown[];
+    default?: unknown;
+    description?: string;
+
+    [key: string]: unknown;
+};
 
 export type CanonicalParam = {
     name: string;
     in: "path" | "query" | "header" | "cookie";
     required: boolean;
-    schema?: JSONSchema;
+    schema?: CanonicalSchema;
     deprecated?: boolean;
     description?: string;
 };
 
 export type CanonicalBody = {
     required: boolean;
-    content: Record<string, { schema?: JSONSchema }>;
+    content: Record<string, { schema?: CanonicalSchema }>;
 };
 
 export type CanonicalMessage = {
