@@ -10,8 +10,8 @@ export class OASValidationStage implements PipelineStage<OASStageContext> {
             const api = await SwaggerParser.validate(input.oas);
             const oasVersion = getOASVersion(api);
 
-            if (!oasVersion || !oasVersion.startsWith("3.0")) {
-                throw new Error(`Unsupported OpenAPI version: ${oasVersion}`);
+            if (!oasVersion) {
+                throw new Error(`Invalid OpenAPI version: ${oasVersion}`);
             }
 
             return {
