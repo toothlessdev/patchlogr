@@ -1,0 +1,24 @@
+{
+    "name": "@patchlogr/types",
+    "version": "0.0.0",
+    "publishConfig": {
+        "access": "public"
+    },
+    "types": "./dist/index.d.ts",
+    "exports": {
+        "types": "./dist/index.d.ts"
+    },
+    "scripts": {
+        "build": "tsc",
+        "lint": "eslint .",
+        "test": "vitest"
+    },
+    "devDependencies": {
+        "@types/node": "24",
+        "openapi-types": "^12.1.3",
+        "vitest": "^4.0.16"
+    },
+    "dependencies": {
+        "typescript": "^5.9.3"
+    }
+}
