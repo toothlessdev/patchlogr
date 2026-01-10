@@ -72,7 +72,7 @@ jobs:
               if: (!cancelled())
               with:
                   name: Vitest Tests
-                  path: "**/.coverage/junit.xml"
+                  path: "**/.coverage/report.xml"
                   reporter: java-junit
 
             - name: Upload Test Artifacts
@@ -89,4 +89,4 @@ jobs:
               uses: EnricoMi/publish-unit-test-result-action@v2
               if: (!cancelled())
               with:
-                  files: "**/.coverage/junit.xml"
+                  files: "**/.coverage/report.xml"
