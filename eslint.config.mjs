@@ -62,11 +62,13 @@ export default tseslint.config(
                         },
                         {
                             name: "node:assert",
-                            message: "Use vitest test instead of node:assert",
+                            message:
+                                "Use `expect` from `vitest` instead of `node:assert`",
                         },
                         {
                             name: "assert",
-                            message: "Use vitest test instead of node:assert",
+                            message:
+                                "Use `expect` from `vitest` instead of `node:assert`",
                         },
                     ],
                 },
