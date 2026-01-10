@@ -121,7 +121,7 @@ export function normalizeParameters(
         }
 
         if (param.schema) {
-            paramObj.schema = param.schema as any;
+            paramObj.schema = toCanonicalSchema(param.schema);
         }
 
         if (param.deprecated) {
