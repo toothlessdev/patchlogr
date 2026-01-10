@@ -9,6 +9,7 @@ permissions:
     contents: read
     checks: write
     actions: read
+    pull-requests: write
 
 env:
     NODE_VERSION: "24"
@@ -68,7 +69,7 @@ jobs:
 
             - name: Report Test Logs
               uses: dorny/test-reporter@v1
-              if: success() || failure()
+              if: (!cancelled())
               with:
                   name: Vitest Tests
                   path: "**/.coverage/junit.xml"
@@ -76,10 +77,16 @@ jobs:
 
             - name: Upload Test Artifacts
               uses: actions/upload-artifact@v4
-              if: success() || failure()
+              if: (!cancelled())
               with:
-                  name: vitest-report
+                  name: Test Reports
                   path: |
-                      **/.coverage/junit.xml
+                      **/.coverage/report.xml
                       **/coverage/**/*
                   retention-days: 7
+
+            - name: Publish Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              if: (!cancelled())
+              with:
+                  files: "**/.coverage/junit.xml"

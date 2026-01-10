@@ -23,8 +23,8 @@ export default defineConfig({
         },
         reporters: ["default", "junit", "json", "html"],
         outputFile: {
-            junit: "./.coverage/junit.xml",
-            json: "./.coverage/json.json",
+            junit: "./.coverage/report.xml",
+            json: "./.coverage/report.json",
             html: "./.coverage/report.html",
         },
     },
