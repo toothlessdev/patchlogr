@@ -2,6 +2,7 @@ import { describe, expect, test } from "vitest";
 import { OASBundleStage } from "../OASBundleStage";
 import { OASStageContext } from "../OASStageContext";
 import path from "path";
+import { OpenAPIV3 } from "openapi-types";
 
 describe("OASBundleStage", () => {
     test("should dereference external $ref correctly", async () => {
@@ -12,7 +13,25 @@ describe("OASBundleStage", () => {
         };
 
         const output = await oasBundleStage.execute(input);
-        console.log(JSON.stringify(output.oas));
         expect(output.oas).not.toHaveProperty("$ref");
+
+        const response = output.oas?.paths?.["/pet"]?.get?.responses?.[
+            "200"
+        ] as OpenAPIV3.ResponseObject;
+
+        const schema = response?.content?.["application/json"]
+            ?.schema as OpenAPIV3.SchemaObject;
+
+        expect(schema).toEqual({
+            type: "object",
+            properties: {
+                id: {
+                    type: "integer",
+                },
+                name: {
+                    type: "string",
+                },
+            },
+        });
     });
 });
