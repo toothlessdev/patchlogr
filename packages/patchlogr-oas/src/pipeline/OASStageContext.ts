@@ -10,7 +10,7 @@ export type OASStageOptions = {
 export type OASStageContext = {
     source: OASStageInput;
     options?: OASStageOptions;
-    oas?: any;
+    oas?: OpenAPI.Document;
     oasVersion?: string;
     canonicalSpec?: CanonicalSpec;
     meta?: {
