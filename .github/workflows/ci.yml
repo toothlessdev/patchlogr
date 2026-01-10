@@ -6,30 +6,30 @@ on:
     workflow_dispatch:
 
 permissions:
-  contents: read
-  checks: write
-  actions: read
+    contents: read
+    checks: write
+    actions: read
 
 env:
-    NODE_VERSION: '24'
+    NODE_VERSION: "24"
 
 jobs:
-    build:
+    build-and-test:
         name: Build & Test
         timeout-minutes: 15
         runs-on: ubuntu-latest
-        
+
         steps:
             - name: Checkout Code
               uses: actions/checkout@v4
               with:
-                fetch-depth: 0
-            
+                  fetch-depth: 0
+
             - name: Setup Node.js
               uses: actions/setup-node@v4
               with:
-                node-version: ${{ env.NODE_VERSION }}
-        
+                  node-version: ${{ env.NODE_VERSION }}
+
             - name: Enable Corepack (Yarn Berry)
               run: corepack enable
 
@@ -39,13 +39,13 @@ jobs:
             - name: Restore Yarn Cache
               uses: actions/cache@v4
               with:
-                path: |
-                    .yarn/cache
-                    .yarn/unplugged
-                    .yarn/build-state.yml
-                    .pnp.cjs
-                key: yarn-${{runner.os}}-${{hashFiles('**/yarn.lock')}}
-                restore-keys: yarn-${{runner.os}}-
+                  path: |
+                      .yarn/cache
+                      .yarn/unplugged
+                      .yarn/build-state.yml
+                      .pnp.cjs
+                  key: yarn-${{runner.os}}-${{hashFiles('**/yarn.lock')}}
+                  restore-keys: yarn-${{runner.os}}-
 
             - name: Install Dependencies (Yarn Berry)
               run: yarn install --immutable
@@ -53,36 +53,33 @@ jobs:
             - name: Restore Turborepo Cache
               uses: actions/cache@v4
               with:
-                path: .turbo
-                key: turbo-${{runner.os}}-${{hashFiles('turbo.json', 'package.json', '**/package.json')}}
-                restore-keys: turbo-${{runner.os}}-
+                  path: .turbo
+                  key: turbo-${{runner.os}}-${{hashFiles('turbo.json', 'package.json', '**/package.json')}}
+                  restore-keys: turbo-${{runner.os}}-
 
             - name: Run Typecheck
               run: yarn typecheck
 
             - name: Run Lint
               run: yarn lint
-                            
+
             - name: Run Tests
               run: yarn test
-
-            - name: Build
-              run: yarn build
 
             - name: Report Test Logs
               uses: dorny/test-reporter@v1
               if: success() || failure()
               with:
-                name: Vitest Tests
-                path: "**/.coverage/junit.xml"
-                reporter: java-junit
+                  name: Vitest Tests
+                  path: "**/.coverage/junit.xml"
+                  reporter: java-junit
 
             - name: Upload Test Artifacts
               uses: actions/upload-artifact@v4
               if: success() || failure()
               with:
-                name: vitest-report
-                path: |
-                  **/.coverage/junit.xml
-                  **/coverage/**/*
-                retention-days: 7
+                  name: vitest-report
+                  path: |
+                      **/.coverage/junit.xml
+                      **/coverage/**/*
+                  retention-days: 7
