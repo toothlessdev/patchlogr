@@ -1,5 +1,5 @@
 import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
-import { describe, expect, test, vi } from "vitest";
+import { describe, expect, test } from "vitest";
 import SwaggerParser from "@apidevtools/swagger-parser";
 import { OASValidationStage } from "../OASValidationStage";
 import { OASStageContext } from "../OASStageContext";

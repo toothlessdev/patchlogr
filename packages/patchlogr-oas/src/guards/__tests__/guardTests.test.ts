@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { isSchemaObject, isReferenceObject } from "../schemaGuards";
+import { isSchemaObject } from "../schemaGuards";
 
 describe("Guards", () => {
     describe("isSchemaObject", () => {
