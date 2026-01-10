@@ -75,6 +75,7 @@ describe("preprocessOASDocument Integration", () => {
             info: docV2.info,
             operations: {
                 "GET /users": {
+                    doc: {},
                     key: "GET /users",
                     method: "GET",
                     path: "/users",
@@ -117,6 +118,7 @@ describe("preprocessOASDocument Integration", () => {
             info: docV3.info,
             operations: {
                 "POST /products": {
+                    doc: {},
                     key: "POST /products",
                     method: "POST",
                     path: "/products",
