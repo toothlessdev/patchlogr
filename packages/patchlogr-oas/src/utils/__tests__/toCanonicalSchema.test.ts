@@ -106,4 +106,16 @@ describe("toCanonicalSchema", () => {
             },
         });
     });
+
+    test("should normalize schema with tuple items (array of schemas)", () => {
+        const input = {
+            type: "array",
+            items: [{ type: "string" }, { type: "integer" }],
+        };
+
+        expect(toCanonicalSchema(input as any)).toEqual({
+            type: "array",
+            items: [{ type: "string" }, { type: "integer" }],
+        });
+    });
 });

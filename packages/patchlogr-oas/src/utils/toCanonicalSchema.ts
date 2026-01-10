@@ -59,7 +59,9 @@ export function toCanonicalSchema(
 
     if (canonical.items) {
         if (Array.isArray(canonical.items)) {
-            canonical.items = toCanonicalSchema(canonical.items[0]);
+            canonical.items = canonical.items.map((item) =>
+                toCanonicalSchema(item as any),
+            );
         } else {
             canonical.items = toCanonicalSchema(canonical.items as any);
         }

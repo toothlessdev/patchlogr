@@ -30,7 +30,7 @@ export type CanonicalSchema = {
      */
     properties?: Record<string, CanonicalSchemaProperty>;
 
-    items?: CanonicalSchema;
+    items?: CanonicalSchema | CanonicalSchema[];
     enum?: unknown[];
     default?: unknown;
     description?: string;
