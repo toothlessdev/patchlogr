@@ -248,6 +248,8 @@ export function normalizeGeneralParam(
         paramObj.schema.enum = generalParam.enum;
     if (generalParam.default !== undefined)
         paramObj.schema.default = generalParam.default;
+    if (generalParam.collectionFormat !== undefined)
+        paramObj.schema.collectionFormat = generalParam.collectionFormat;
 
     return paramObj;
 }

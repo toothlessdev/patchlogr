@@ -1,4 +1,4 @@
-import { describe, expect, test, it } from "vitest";
+import { describe, expect, test } from "vitest";
 import { CanonicalSchema } from "@patchlogr/types";
 
 import {
@@ -288,7 +288,7 @@ describe("canonicalizeOASV3", () => {
 
 describe("canonicalizeOASV3 Helpers", () => {
     describe("normalizeParameters", () => {
-        it("should normalize parameters", () => {
+        test("should normalize parameters", () => {
             const params: any[] = [
                 {
                     name: "id",
@@ -310,7 +310,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("normalizeRequestBody", () => {
-        it("should normalize request body", () => {
+        test("should normalize request body", () => {
             const body: any = {
                 required: true,
                 content: {
@@ -332,7 +332,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("processResponses", () => {
-        it("should process responses", () => {
+        test("should process responses", () => {
             const responses: any = {
                 "200": {
                     description: "OK",
@@ -356,7 +356,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("extractDocMetadata", () => {
-        it("should extract documentation metadata", () => {
+        test("should extract documentation metadata", () => {
             const op: any = {
                 operationId: "op1",
                 summary: "summary",

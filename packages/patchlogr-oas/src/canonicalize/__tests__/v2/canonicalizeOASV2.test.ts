@@ -317,6 +317,19 @@ describe("normalizeGeneralParam", () => {
             },
         });
     });
+
+    test("should include collectionFormat for array type", () => {
+        const param = {
+            name: "tags",
+            in: "query",
+            required: false,
+            type: "array",
+            items: { type: "string" },
+            collectionFormat: "csv",
+        };
+        const result = normalizeGeneralParam(param);
+        expect(result.schema?.collectionFormat).toBe("csv");
+    });
 });
 
 describe("processRequestBody", () => {

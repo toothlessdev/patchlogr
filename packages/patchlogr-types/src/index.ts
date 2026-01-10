@@ -24,6 +24,7 @@ export type OperationKey = `${HTTPMethod} ${string}`;
 export type CanonicalSchema = {
     type?: string | string[];
     format?: string;
+    collectionFormat?: string;
 
     /**
      * properties[name].required 로 필드 required 여부를 판단할 수 있게 별도 타입 분리
