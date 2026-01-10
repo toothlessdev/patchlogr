@@ -9,7 +9,10 @@ export default defineConfig({
 
         passWithNoTests: true,
 
-        include: ["src/**/*.{test,spec}.{ts,tsx}"],
+        include: [
+            "src/**/*.{test,spec}.{ts,tsx}",
+            "packages/**/src/**/*.{test,spec}.{ts,tsx}",
+        ],
         exclude: ["**/dist/**", "**/build/**"],
 
         coverage: {
