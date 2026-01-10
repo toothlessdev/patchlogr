@@ -1,8 +1,9 @@
 import { CanonicalSpec } from "@patchlogr/types";
 import { OASStageContext } from "./OASStageContext";
 import { PipelineStage } from "./PipelineExecutor";
-import { canonicalizeOASV2 } from "../canonicalize/canonicalizeOASV2";
-import { canonicalizeOASV3 } from "../canonicalize/canonicalizeOASV3";
+import { canonicalizeOASV2 } from "../canonicalize/v2";
+import { canonicalizeOASV3 } from "../canonicalize/v3";
+import { isOpenAPIV2, isOpenAPIV3 } from "../utils/OASVersionUtils";
 
 /**
  * 표준화된 CanonicalSpec로 변환
@@ -17,9 +18,9 @@ export class OASCanonicalizeStage implements PipelineStage<OASStageContext> {
 
         let canonicalSpec: CanonicalSpec;
 
-        if (input.oasVersion === "2.0") {
+        if (isOpenAPIV2(input.oas)) {
             canonicalSpec = canonicalizeOASV2(input.oas);
-        } else if (input.oasVersion?.startsWith("3.")) {
+        } else if (isOpenAPIV3(input.oas)) {
             canonicalSpec = canonicalizeOASV3(input.oas);
         } else {
             throw new Error(`Unsupported OpenAPI version: ${input.oasVersion}`);

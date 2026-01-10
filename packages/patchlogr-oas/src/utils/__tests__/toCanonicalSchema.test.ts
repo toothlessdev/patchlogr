@@ -1,5 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { toCanonicalSchema } from "../toCanonicalSchema";
+import { OpenAPISchemaObjectWithItems } from "../../guards/schemaGuards";
 
 describe("toCanonicalSchema", () => {
     test("should normalize simple schema", () => {
@@ -108,12 +109,12 @@ describe("toCanonicalSchema", () => {
     });
 
     test("should normalize schema with tuple items (array of schemas)", () => {
-        const input = {
+        const input: OpenAPISchemaObjectWithItems = {
             type: "array",
             items: [{ type: "string" }, { type: "integer" }],
         };
 
-        expect(toCanonicalSchema(input as any)).toEqual({
+        expect(toCanonicalSchema(input)).toEqual({
             type: "array",
             items: [{ type: "string" }, { type: "integer" }],
         });

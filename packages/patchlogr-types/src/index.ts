@@ -22,11 +22,11 @@ export type OperationKey = `${HTTPMethod} ${string}`;
  * }
  */
 export type CanonicalSchema = {
-    type?: string;
+    type?: string | string[];
     format?: string;
 
     /**
-     * properties[name].required 로 필드 required 여부를 박아둘 수 있게 별도 타입 분리
+     * properties[name].required 로 필드 required 여부를 판단할 수 있게 별도 타입 분리
      */
     properties?: Record<string, CanonicalSchemaProperty>;
 
@@ -35,14 +35,13 @@ export type CanonicalSchema = {
     default?: unknown;
     description?: string;
 
-    // minimum, maximum, pattern 등 나중에 확장 가능성 고려
+    // minimum, maximum, pattern 등 확장성 고려
     [key: string]: unknown;
 };
 
 export type CanonicalSchemaProperty = CanonicalSchema & {
     /**
-     * 해당 필드가 required 배열에 포함되었는지 여부.
-     * adapter에서 true/false로 normalize 해두는 걸 추천.
+     * 해당 필드가 required 배열에 포함되었는지 여부
      */
     required?: boolean;
 };

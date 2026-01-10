@@ -1,5 +1,6 @@
 import { OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, vi } from "vitest";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import { OASValidationStage } from "../OASValidationStage";
 import { OASStageContext } from "../OASStageContext";
 
@@ -78,5 +79,40 @@ describe("SwaggerValidationStage", () => {
             };
             await swaggerValidationStage.execute(input);
         }).rejects.toThrow("Invalid OpenAPI Specification");
+    });
+    test("should throw an error if input.oas is missing", async () => {
+        const swaggerValidationStage = new OASValidationStage();
+        const input: OASStageContext = {
+            source: "{}",
+            options: {},
+        };
+
+        await expect(swaggerValidationStage.execute(input)).rejects.toThrow(
+            "OAS object is missing in context. A previous stage might have failed.",
+        );
+    });
+
+    test("should update context with validated oas object", async () => {
+        const swaggerValidationStage = new OASValidationStage();
+        const input: OASStageContext = {
+            source: "{}",
+            oas: {
+                swagger: "2.0",
+                info: { title: "Test API", version: "1.0.0" },
+                paths: {},
+            },
+            options: {},
+        };
+
+        const originalValidate = SwaggerParser.validate;
+        const validatedOas = { ...input.oas, _validated: true };
+        SwaggerParser.validate = async () => validatedOas as any;
+
+        try {
+            const result = await swaggerValidationStage.execute(input);
+            expect(result.oas).toEqual(validatedOas);
+        } finally {
+            SwaggerParser.validate = originalValidate;
+        }
     });
 });

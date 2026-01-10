@@ -7,7 +7,12 @@ import { PipelineStage } from "./PipelineExecutor";
  */
 export class OASDereferenceStage implements PipelineStage<OASStageContext> {
     async execute(input: OASStageContext): Promise<OASStageContext> {
-        const oas = await SwaggerParser.dereference(input.oas || input.source);
+        if (!input.oas) {
+            throw new Error(
+                "OAS object is missing in context. A previous stage might have failed.",
+            );
+        }
+        const oas = await SwaggerParser.dereference(input.oas);
 
         return {
             ...input,

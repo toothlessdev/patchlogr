@@ -10,7 +10,8 @@ import {
     CanonicalSecurityRequirement,
 } from "@patchlogr/types";
 import { OpenAPIV3 } from "openapi-types";
-import { toCanonicalSchema } from "../utils/toCanonicalSchema";
+import { toCanonicalSchema } from "../../utils/toCanonicalSchema";
+import { isV3ParameterObject } from "../../guards/parameterGuards";
 
 const HTTP_METHODS = [
     "get",
@@ -155,7 +156,7 @@ export function createCanonicalOperation(
 }
 
 /**
- * 파라미터 목록을 CanonicalParam 배열로 변환
+ * 파라미터(Parameter) 목록을 CanonicalParam 배열로 변환
  * - $ref가 없는 파라미터만 처리 (dereferenced 가정)
  * - name, in, required, schema 등을 매핑
  *
@@ -171,7 +172,7 @@ export function normalizeParameters(
     const requestParams: CanonicalParam[] = [];
 
     for (const param of allParams) {
-        if ("$ref" in param) continue;
+        if (!isV3ParameterObject(param)) continue;
 
         const paramObj: CanonicalParam = {
             name: param.name,

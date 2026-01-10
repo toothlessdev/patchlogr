@@ -10,7 +10,8 @@ import {
     CanonicalSecurityRequirement,
 } from "@patchlogr/types";
 import { OpenAPIV2 } from "openapi-types";
-import { toCanonicalSchema } from "../utils/toCanonicalSchema";
+import { toCanonicalSchema } from "../../utils/toCanonicalSchema";
+import { isV2GeneralParameter } from "../../guards/parameterGuards";
 
 const HTTP_METHODS = [
     "get",
@@ -223,10 +224,15 @@ export function categorizeParameters(allParams: OpenAPIV2.ParameterObject[]) {
 export function normalizeGeneralParam(
     param: OpenAPIV2.ParameterObject,
 ): CanonicalParam {
-    const generalParam = param as OpenAPIV2.GeneralParameterObject;
+    if (!isV2GeneralParameter(param)) {
+        throw new Error(`Invalid general parameter: ${JSON.stringify(param)}`);
+    }
+    const generalParam = param;
+    const paramIn = generalParam.in as CanonicalParam["in"];
+
     const paramObj: CanonicalParam = {
         name: generalParam.name,
-        in: generalParam.in as CanonicalParam["in"],
+        in: paramIn,
         required: generalParam.required || false,
     };
 
@@ -361,7 +367,7 @@ export function processFormData(
             allowEmptyValue,
             items,
             ...schemaProps
-        } = param as any;
+        } = param;
 
         properties[name] = {
             ...schemaProps,

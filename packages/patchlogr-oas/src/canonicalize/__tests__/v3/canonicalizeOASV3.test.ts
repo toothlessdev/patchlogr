@@ -7,8 +7,8 @@ import {
     normalizeRequestBody,
     processResponses,
     extractDocMetadata,
-} from "../canonicalizeOASV3";
-import { docV3 } from "../__fixtures__/docV3";
+} from "../../v3";
+import { docV3 } from "../../__fixtures__/docV3";
 
 describe("canonicalizeOASV3", () => {
     test("Map 'info' property correctly", () => {
@@ -85,8 +85,7 @@ describe("canonicalizeOASV3", () => {
         expect(successResponse).toBeDefined();
         expect(successResponse?.content?.["application/json"]).toBeDefined();
 
-        const schema = successResponse?.content?.["application/json"]
-            ?.schema as any;
+        const schema = successResponse?.content?.["application/json"]?.schema;
         expect(schema).toHaveProperty("type", "object");
         expect(schema?.properties?.["id"]).toHaveProperty("required", true);
         expect(schema?.properties?.["name"]).toHaveProperty("required", true);

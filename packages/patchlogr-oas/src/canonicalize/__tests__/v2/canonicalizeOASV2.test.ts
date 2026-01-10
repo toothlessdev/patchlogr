@@ -7,8 +7,8 @@ import {
     processFormData,
     processResponses,
     extractDocMetadata,
-} from "../canonicalizeOASV2";
-import { docV2 } from "../__fixtures__/docV2";
+} from "../../v2";
+import { docV2 } from "../../__fixtures__/docV2";
 
 describe("canonicalizeOASV2", () => {
     const spec = canonicalizeOASV2(docV2);
@@ -279,7 +279,7 @@ describe("canonicalizeOASV2", () => {
 
 describe("categorizeParameters", () => {
     test("should separate request params, form data, and body param", () => {
-        const params: any[] = [
+        const params = [
             { name: "id", in: "path", required: true, type: "string" },
             { name: "field", in: "formData", type: "string" },
             { name: "body", in: "body", schema: {} },
@@ -297,7 +297,7 @@ describe("categorizeParameters", () => {
 
 describe("normalizeGeneralParam", () => {
     test("should normalize general parameter", () => {
-        const param: any = {
+        const param = {
             name: "id",
             in: "path",
             required: true,

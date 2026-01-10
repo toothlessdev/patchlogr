@@ -9,6 +9,11 @@ import { getOASVersion } from "../utils/OASVersionUtils";
  */
 export class OASValidationStage implements PipelineStage<OASStageContext> {
     async execute(input: OASStageContext): Promise<OASStageContext> {
+        if (!input.oas) {
+            throw new Error(
+                "OAS object is missing in context. A previous stage might have failed.",
+            );
+        }
         try {
             if (input.options?.skipValidation) {
                 const oasVersion = getOASVersion(input.oas);
@@ -32,6 +37,7 @@ export class OASValidationStage implements PipelineStage<OASStageContext> {
 
             return {
                 ...input,
+                oas: api,
                 oasVersion,
             };
         } catch (err) {
