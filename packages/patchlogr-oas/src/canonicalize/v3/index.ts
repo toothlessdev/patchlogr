@@ -11,7 +11,6 @@ import {
 } from "@patchlogr/types";
 import { OpenAPIV3 } from "openapi-types";
 import { toCanonicalSchema } from "../../utils/toCanonicalSchema";
-import { isV3ParameterObject } from "../../guards/parameterGuards";
 
 const HTTP_METHODS = [
     "get",
@@ -172,8 +171,6 @@ export function normalizeParameters(
     const requestParams: CanonicalParam[] = [];
 
     for (const param of allParams) {
-        if (!isV3ParameterObject(param)) continue;
-
         const paramObj: CanonicalParam = {
             name: param.name,
             in: param.in as CanonicalParam["in"],

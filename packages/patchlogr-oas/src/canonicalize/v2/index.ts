@@ -11,7 +11,6 @@ import {
 } from "@patchlogr/types";
 import { OpenAPIV2 } from "openapi-types";
 import { toCanonicalSchema } from "../../utils/toCanonicalSchema";
-import { isV2GeneralParameter } from "../../guards/parameterGuards";
 
 const HTTP_METHODS = [
     "get",
@@ -224,9 +223,6 @@ export function categorizeParameters(allParams: OpenAPIV2.ParameterObject[]) {
 export function normalizeGeneralParam(
     param: OpenAPIV2.ParameterObject,
 ): CanonicalParam {
-    if (!isV2GeneralParameter(param)) {
-        throw new Error(`Invalid general parameter: ${JSON.stringify(param)}`);
-    }
     const generalParam = param;
     const paramIn = generalParam.in as CanonicalParam["in"];
 
@@ -379,7 +375,7 @@ export function processFormData(
         if (description) {
             properties[name].description = description;
         }
-        if (param.required) {
+        if (requiredParam) {
             required.push(param.name);
         }
     }
