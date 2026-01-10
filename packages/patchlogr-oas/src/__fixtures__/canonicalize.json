@@ -1,0 +1,93 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Logic Set Theory Example",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/intersection": {
+            "post": {
+                "summary": "allOf (AND)",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Intersection_A_AND_B"
+                            }
+                        }
+                    }
+                },
+                "responses": { "200": { "description": "OK" } }
+            }
+        },
+        "/union": {
+            "post": {
+                "summary": "anyOf (OR)",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Union_A_OR_B"
+                            }
+                        }
+                    }
+                },
+                "responses": { "200": { "description": "OK" } }
+            }
+        },
+        "/exclusive": {
+            "post": {
+                "summary": "oneOf (XOR)",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Exclusive_A_XOR_B"
+                            }
+                        }
+                    }
+                },
+                "responses": { "200": { "description": "OK" } }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Alpha": {
+                "type": "object",
+                "properties": {
+                    "a": { "type": "string" }
+                },
+                "required": ["a"]
+            },
+            "Beta": {
+                "type": "object",
+                "properties": {
+                    "b": { "type": "number" }
+                },
+                "required": ["b"]
+            },
+            "Intersection_A_AND_B": {
+                "description": "Alpha & Beta",
+                "allOf": [
+                    { "$ref": "#/components/schemas/Alpha" },
+                    { "$ref": "#/components/schemas/Beta" }
+                ]
+            },
+            "Union_A_OR_B": {
+                "description": "Alpha | Beta (Overlap allowed)",
+                "anyOf": [
+                    { "$ref": "#/components/schemas/Alpha" },
+                    { "$ref": "#/components/schemas/Beta" }
+                ]
+            },
+            "Exclusive_A_XOR_B": {
+                "description": "Strict Union (No overlap)",
+                "oneOf": [
+                    { "$ref": "#/components/schemas/Alpha" },
+                    { "$ref": "#/components/schemas/Beta" }
+                ]
+            }
+        }
+    }
+}
