@@ -1,8 +1,9 @@
 import { build } from "esbuild";
+import path from "path";
 
-esbuild.build({
-    entryPoints: ["src/cli.ts"],
-    outfile: "dist/cli.js",
+await build({
+    entryPoints: [path.resolve("src/index.ts")],
+    outfile: "dist/index.js",
     platform: "node",
     banner: {
         js: "#!/usr/bin/env node",
