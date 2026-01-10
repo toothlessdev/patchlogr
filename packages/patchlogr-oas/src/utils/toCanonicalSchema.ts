@@ -1,4 +1,4 @@
-import { CanonicalSchema } from "@patchlogr/types";
+import { CanonicalSchema, CanonicalSchemaProperty } from "@patchlogr/types";
 
 export function toCanonicalSchema(schema: any): CanonicalSchema {
     if (!schema || typeof schema !== "object") {
@@ -13,13 +13,16 @@ export function toCanonicalSchema(schema: any): CanonicalSchema {
         const requiredFields = new Set((canonical.required as string[]) || []);
 
         for (const [key, prop] of Object.entries(canonical.properties)) {
-            canonical.properties[key] = toCanonicalSchema(prop);
+            const canonicalProp = toCanonicalSchema(
+                prop,
+            ) as CanonicalSchemaProperty;
 
             if (requiredFields.has(key)) {
-                (canonical.properties[key] as any).required = true;
+                canonicalProp.required = true;
             } else {
-                (canonical.properties[key] as any).required = false;
+                canonicalProp.required = false;
             }
+            canonical.properties[key] = canonicalProp;
         }
     }
 
