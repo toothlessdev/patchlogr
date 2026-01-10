@@ -4,6 +4,9 @@ import { PipelineStage } from "./PipelineExecutor";
 import { canonicalizeOASV2 } from "../canonicalize/canonicalizeOASV2";
 import { canonicalizeOASV3 } from "../canonicalize/canonicalizeOASV3";
 
+/**
+ * 표준화된 CanonicalSpec로 변환
+ */
 export class OASCanonicalizeStage implements PipelineStage<OASStageContext> {
     async execute(input: OASStageContext): Promise<OASStageContext> {
         if (!input.oas) {
