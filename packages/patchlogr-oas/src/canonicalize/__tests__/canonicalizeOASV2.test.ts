@@ -359,6 +359,57 @@ describe("processFormData", () => {
             required: true,
         });
     });
+
+    test("should preserve extra properties (default, enum) and normalize items in form data", () => {
+        const doc: any = {};
+        const op: any = {
+            consumes: ["application/x-www-form-urlencoded"],
+        };
+        const formDataParams: any[] = [
+            {
+                name: "status",
+                type: "string",
+                enum: ["available", "pending", "sold"],
+                default: "available",
+                required: true,
+            },
+            {
+                name: "tags",
+                type: "array",
+                items: {
+                    type: "string",
+                    default: "new",
+                },
+                collectionFormat: "multi",
+                required: false,
+            },
+        ];
+
+        const result = processFormData(doc, op, formDataParams);
+        const schema =
+            result.content["application/x-www-form-urlencoded"]?.schema;
+
+        expect(schema).toEqual({
+            type: "object",
+            properties: {
+                status: {
+                    type: "string",
+                    enum: ["available", "pending", "sold"],
+                    default: "available",
+                    required: true,
+                },
+                tags: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                        default: "new",
+                    },
+                    collectionFormat: "multi",
+                    required: false,
+                },
+            },
+        });
+    });
 });
 
 describe("processResponses", () => {

@@ -150,7 +150,7 @@ export function normalizeGeneralParam(
     if (generalParam.format !== undefined)
         paramObj.schema.format = generalParam.format;
     if (generalParam.items !== undefined)
-        paramObj.schema.items = generalParam.items as any;
+        paramObj.schema.items = toCanonicalSchema(generalParam.items);
     if (generalParam.enum !== undefined)
         paramObj.schema.enum = generalParam.enum;
     if (generalParam.default !== undefined)
@@ -192,11 +192,33 @@ export function processFormData(
     const required: string[] = [];
 
     for (const param of formDataParams) {
-        properties[param.name] = {
-            type: param.type,
-            format: param.format,
-            items: param.items,
+        // Copy standard schema properties from the parameter
+        // We exclude parameter-specific fields like 'name', 'in', 'required' (handled separately), 'description' (maybe?), 'allowEmptyValue', etc.
+        // But simply copying everything except specific ones or whitelist is safer.
+        // Let's iterate and copy properties that are valid in JSON Schema.
+        const {
+            name,
+            in: inParam,
+            required: requiredParam,
+            description, // Description might be useful to keep on the property? Yes.
+            allowEmptyValue,
+            items,
+            ...schemaProps
+        } = param as any;
+
+        properties[name] = {
+            ...schemaProps,
         };
+
+        if (items) {
+            properties[name].items = toCanonicalSchema(items);
+        }
+
+        // Also keep description on the property level if desired for consistency with body schema
+        if (description) {
+            properties[name].description = description;
+        }
+
         if (param.required) {
             required.push(param.name);
         }
