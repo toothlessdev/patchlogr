@@ -3,7 +3,7 @@ import { OASStageContext } from "./OASStageContext";
 import { PipelineStage } from "./PipelineExecutor";
 import { canonicalizeOASV2 } from "../canonicalize/v2";
 import { canonicalizeOASV3 } from "../canonicalize/v3";
-import { isOpenAPIV2, isOpenAPIV3 } from "../utils/OASVersionUtils";
+import { isOpenAPIV2, isOpenAPIV3 } from "../utils/oasVersionUtils";
 
 /**
  * 표준화된 CanonicalSpec로 변환

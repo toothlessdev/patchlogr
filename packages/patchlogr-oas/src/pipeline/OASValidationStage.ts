@@ -2,7 +2,7 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 
 import { PipelineStage } from "./PipelineExecutor";
 import { OASStageContext } from "./OASStageContext";
-import { getOASVersion } from "../utils/OASVersionUtils";
+import { getOASVersion } from "../utils/oasVersionUtils";
 
 /**
  * OAS 문서의 유효성 검사
