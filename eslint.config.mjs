@@ -13,7 +13,7 @@ export default tseslint.config(
             "**/coverage/**",
             "**/.yarn/**",
             "**/.pnp.*",
-            "**/eslint.config.mjs",
+            "**/*.mjs",
         ],
     },
     js.configs.recommended,
