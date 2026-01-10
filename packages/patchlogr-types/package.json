@@ -1,10 +1,15 @@
 {
-    "name": "@patchlogr/oas",
+    "name": "@patchlogr/types",
     "version": "0.0.0",
     "publishConfig": {
         "access": "public"
     },
+    "types": "./dist/index.d.ts",
+    "exports": {
+        "types": "./dist/index.d.ts"
+    },
     "scripts": {
+        "build": "tsc",
         "lint": "eslint .",
         "test": "vitest"
     },
@@ -14,7 +19,6 @@
         "vitest": "^4.0.16"
     },
     "dependencies": {
-        "@apidevtools/swagger-parser": "^12.1.0",
-        "@patchlogr/types": "workspace:*"
+        "typescript": "^5.9.3"
     }
 }

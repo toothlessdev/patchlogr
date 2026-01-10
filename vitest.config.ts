@@ -7,7 +7,12 @@ export default defineConfig({
         restoreMocks: true,
         mockReset: true,
 
-        include: ["src/**/*.{test,spec}.{ts,tsx}"],
+        passWithNoTests: true,
+
+        include: [
+            "src/**/*.{test,spec}.{ts,tsx}",
+            "packages/**/src/**/*.{test,spec}.{ts,tsx}",
+        ],
         exclude: ["**/dist/**", "**/build/**"],
 
         coverage: {

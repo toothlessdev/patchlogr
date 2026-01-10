@@ -25,11 +25,13 @@
         "lint": "eslint ."
     },
     "dependencies": {
+        "@apidevtools/swagger-parser": "^12.1.0",
         "@patchlogr/oas": "workspace:*"
     },
     "devDependencies": {
-        "esbuild": "workspace:*",
-        "typescript": "workspace:*",
-        "vitest": "workspace:*"
+        "esbuild": "^0.27.2",
+        "openapi-types": "^12.1.3",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.16"
     }
 }

@@ -15,13 +15,14 @@
     },
     "devDependencies": {
         "@eslint/js": "^9.39.2",
-        "@types/node": "^25.0.3",
+        "@types/node": "24",
         "@typescript-eslint/eslint-plugin": "^8.51.0",
         "@typescript-eslint/parser": "^8.51.0",
         "esbuild": "0.27.2",
         "eslint": "^9.39.2",
         "eslint-config-prettier": "^10.1.8",
         "eslint-plugin-prettier": "^5.5.4",
+        "eslint-plugin-unused-imports": "^4.3.0",
         "globals": "^17.0.0",
         "prettier": "^3.7.4",
         "turbo": "2.7.2",
@@ -33,6 +34,8 @@
         "esbuild": "0.27.2",
         "turbo": "2.7.2",
         "typescript": "5.9.3",
-        "vitest": "4.0.16"
+        "vitest": "4.0.16",
+        "openapi-types": "12.1.3",
+        "@types/node": "24.10.6"
     }
 }
