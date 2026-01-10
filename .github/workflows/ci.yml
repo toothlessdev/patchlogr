@@ -5,6 +5,11 @@ on:
         types: [opened, synchronize]
     workflow_dispatch:
 
+permissions:
+  contents: read
+  checks: write
+  actions: read
+
 env:
     NODE_VERSION: '24'
 
@@ -29,7 +34,7 @@ jobs:
               run: corepack enable
 
             - name: Setup Yarn Berry
-              run: yarn set verion berry && yarn set version 4.12.0
+              run: yarn set version 4.12.0
 
             - name: Restore Yarn Cache
               uses: actions/cache@v4
@@ -63,3 +68,21 @@ jobs:
 
             - name: Build
               run: yarn build
+
+            - name: Report Test Logs
+              uses: dorny/test-reporter@v1
+              if: success() || failure()
+              with:
+                name: Vitest Tests
+                path: "**/.coverage/junit.xml"
+                reporter: java-junit
+
+            - name: Upload Test Artifacts
+              uses: actions/upload-artifact@v4
+              if: success() || failure()
+              with:
+                name: vitest-report
+                path: |
+                  **/.coverage/junit.xml
+                  **/coverage/**/*
+                retention-days: 7
