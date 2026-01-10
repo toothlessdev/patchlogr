@@ -1,7 +1,13 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test, it } from "vitest";
 import { CanonicalSchema } from "@patchlogr/types";
 
-import { canonicalizeOASV3 } from "../canonicalizeOASV3";
+import {
+    canonicalizeOASV3,
+    normalizeParameters,
+    normalizeRequestBody,
+    processResponses,
+    extractDocMetadata,
+} from "../canonicalizeOASV3";
 import { docV3 } from "../__fixtures__/docV3";
 
 describe("canonicalizeOASV3", () => {
@@ -92,7 +98,279 @@ describe("canonicalizeOASV3", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
-        expect(op?.operationId).toBe("updatePetV2");
-        expect(op?.summary).toBe("Updates a pet");
+        expect(op?.doc?.operationId).toBe("updatePetV2");
+        expect(op?.doc?.summary).toBe("Updates a pet");
+    });
+
+    test("Produce full canonical spec matching expected output", () => {
+        const spec = canonicalizeOASV3(docV3);
+        expect(spec).toEqual({
+            info: {
+                title: "Legacy API",
+                version: "1.0.0",
+            },
+            operations: {
+                "GET /pets/{petId}": {
+                    key: "GET /pets/{petId}",
+                    method: "GET",
+                    path: "/pets/{petId}",
+                    doc: {
+                        operationId: "getPetV2",
+                    },
+                    request: {
+                        params: [
+                            {
+                                name: "petId",
+                                in: "path",
+                                required: true,
+                                schema: {
+                                    type: "string",
+                                },
+                            },
+                            {
+                                name: "include",
+                                in: "query",
+                                required: false,
+                                schema: {
+                                    type: "string",
+                                },
+                            },
+                        ],
+                    },
+                    responses: {
+                        "200": {
+                            description: "ok",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            id: {
+                                                type: "string",
+                                                required: false,
+                                            },
+                                            name: {
+                                                type: "string",
+                                                required: false,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                "PUT /pets/{petId}": {
+                    key: "PUT /pets/{petId}",
+                    method: "PUT",
+                    path: "/pets/{petId}",
+                    doc: {
+                        operationId: "updatePetV2",
+                        summary: "Updates a pet",
+                    },
+                    request: {
+                        params: [
+                            {
+                                name: "petId",
+                                in: "path",
+                                required: true,
+                                schema: {
+                                    type: "string",
+                                },
+                            },
+                        ],
+                        body: {
+                            required: true,
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            name: {
+                                                type: "string",
+                                                required: false,
+                                            },
+                                            age: {
+                                                type: "integer",
+                                                required: false,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        "200": {
+                            description: "updated",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            id: {
+                                                type: "string",
+                                                required: true,
+                                            },
+                                            name: {
+                                                type: "string",
+                                                required: true,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+                "POST /pets/upload": {
+                    key: "POST /pets/upload",
+                    method: "POST",
+                    path: "/pets/upload",
+                    doc: {
+                        operationId: "uploadImage",
+                    },
+                    request: {
+                        params: [
+                            {
+                                name: "petId",
+                                in: "query",
+                                required: true,
+                                schema: {
+                                    type: "string",
+                                },
+                            },
+                        ],
+                        body: {
+                            required: true,
+                            content: {
+                                "multipart/form-data": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            image: {
+                                                type: "string",
+                                                format: "binary",
+                                                required: true,
+                                            },
+                                            description: {
+                                                type: "string",
+                                                required: false,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                    responses: {
+                        "200": {
+                            description: "uploaded",
+                            content: {
+                                "application/json": {
+                                    schema: {
+                                        type: "object",
+                                        properties: {
+                                            url: {
+                                                type: "string",
+                                                required: false,
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        });
+    });
+});
+
+describe("canonicalizeOASV3 Helpers", () => {
+    describe("normalizeParameters", () => {
+        it("should normalize parameters", () => {
+            const params: any[] = [
+                {
+                    name: "id",
+                    in: "path",
+                    required: true,
+                    schema: { type: "string" },
+                },
+            ];
+            const result = normalizeParameters(params);
+            expect(result).toEqual([
+                {
+                    name: "id",
+                    in: "path",
+                    required: true,
+                    schema: { type: "string" },
+                },
+            ]);
+        });
+    });
+
+    describe("normalizeRequestBody", () => {
+        it("should normalize request body", () => {
+            const body: any = {
+                required: true,
+                content: {
+                    "application/json": {
+                        schema: { type: "object" },
+                    },
+                },
+            };
+            const result = normalizeRequestBody(body);
+            expect(result).toEqual({
+                required: true,
+                content: {
+                    "application/json": {
+                        schema: { type: "object" },
+                    },
+                },
+            });
+        });
+    });
+
+    describe("processResponses", () => {
+        it("should process responses", () => {
+            const responses: any = {
+                "200": {
+                    description: "OK",
+                    content: {
+                        "application/json": {
+                            schema: { type: "string" },
+                        },
+                    },
+                },
+            };
+            const result = processResponses(responses);
+            expect(result["200"]).toEqual({
+                description: "OK",
+                content: {
+                    "application/json": {
+                        schema: { type: "string" },
+                    },
+                },
+            });
+        });
+    });
+
+    describe("extractDocMetadata", () => {
+        it("should extract documentation metadata", () => {
+            const op: any = {
+                operationId: "op1",
+                summary: "summary",
+                description: "desc",
+                tags: ["tag1"],
+            };
+            const result = extractDocMetadata(op);
+            expect(result).toEqual({
+                operationId: "op1",
+                summary: "summary",
+                description: "desc",
+                tags: ["tag1"],
+            });
+        });
     });
 });
