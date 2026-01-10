@@ -71,7 +71,7 @@ jobs:
               uses: dorny/test-reporter@v1
               if: (!cancelled())
               with:
-                  name: Vitest Tests
+                  name: Test Logs
                   path: "**/.coverage/report.xml"
                   reporter: java-junit
 
