@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getOASVersion, isOpenAPIV2, isOpenAPIV3 } from "../OASVersionUtils";
+import { getOASVersion, isOpenAPIV2, isOpenAPIV3 } from "../oasVersionUtils";
 
 describe("OASVersionUtils", () => {
     test("getOASVersion should return correct version for 3.+", () => {

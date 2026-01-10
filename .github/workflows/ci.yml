@@ -1,0 +1,92 @@
+name: Continuous Integration
+
+on:
+    pull_request:
+        types: [opened, synchronize]
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    checks: write
+    actions: read
+    pull-requests: write
+
+env:
+    NODE_VERSION: "24"
+
+jobs:
+    build-and-test:
+        name: Build & Test
+        timeout-minutes: 15
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            - name: Enable Corepack (Yarn Berry)
+              run: corepack enable
+
+            - name: Setup Yarn Berry
+              run: yarn set version 4.12.0
+
+            - name: Restore Yarn Cache
+              uses: actions/cache@v4
+              with:
+                  path: |
+                      .yarn/cache
+                      .yarn/unplugged
+                      .yarn/build-state.yml
+                      .pnp.cjs
+                  key: yarn-${{runner.os}}-${{hashFiles('**/yarn.lock')}}
+                  restore-keys: yarn-${{runner.os}}-
+
+            - name: Install Dependencies (Yarn Berry)
+              run: yarn install --immutable
+
+            - name: Restore Turborepo Cache
+              uses: actions/cache@v4
+              with:
+                  path: .turbo
+                  key: turbo-${{runner.os}}-${{hashFiles('turbo.json', 'package.json', '**/package.json')}}
+                  restore-keys: turbo-${{runner.os}}-
+
+            - name: Run Typecheck
+              run: yarn typecheck
+
+            - name: Run Lint
+              run: yarn lint
+
+            - name: Run Tests
+              run: yarn test
+
+            - name: Report Test Logs
+              uses: dorny/test-reporter@v1
+              if: (!cancelled())
+              with:
+                  name: Test Logs
+                  path: "**/.coverage/report.xml"
+                  reporter: java-junit
+
+            - name: Upload Test Artifacts
+              uses: actions/upload-artifact@v4
+              if: (!cancelled())
+              with:
+                  name: Test Reports
+                  path: |
+                      **/.coverage/report.xml
+                      **/coverage/**/*
+                  retention-days: 7
+
+            - name: Publish Test Results
+              uses: EnricoMi/publish-unit-test-result-action@v2
+              if: (!cancelled())
+              with:
+                  files: "**/.coverage/report.xml"

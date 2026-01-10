@@ -21,5 +21,11 @@ export default defineConfig({
             reporter: ["text", "html", "lcov"],
             reportsDirectory: "./coverage",
         },
+        reporters: ["default", "junit", "json", "html"],
+        outputFile: {
+            junit: "./.coverage/report.xml",
+            json: "./.coverage/report.json",
+            html: "./.coverage/report.html",
+        },
     },
 });
