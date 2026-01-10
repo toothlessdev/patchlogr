@@ -6,11 +6,11 @@
         "packages/*"
     ],
     "scripts": {
-        "dev": "turbo run dev",
-        "build": "turbo run build",
-        "test": "turbo run test",
-        "lint": "turbo run lint",
-        "typecheck": "turbo run typecheck",
+        "dev": "turbo run dev --cache-dir=.turbo",
+        "build": "turbo run build --cache-dir=.turbo",
+        "test": "turbo run test --cache-dir=.turbo",
+        "lint": "turbo run lint --cache-dir=.turbo",
+        "typecheck": "turbo run typecheck --cache-dir=.turbo",
         "clean": "turbo run clean && rm -rf node_modules .turbo"
     },
     "devDependencies": {
