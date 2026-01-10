@@ -22,6 +22,41 @@ const HTTP_METHODS = [
     "patch",
 ] as const;
 
+/**
+ * OpenAPI 2.0 (Swagger) 문서를 CanonicalSpec으로 변환합니다.
+ * - paths, operation을 순회하며 정규화된 포맷으로 변환합니다.
+ * - 파라미터, 바디, 응답 등을 표준화된 형태로 정리합니다.
+ *
+ * @param {OpenAPIV2.Document} doc - 변환할 OpenAPI 2.0 문서 객체
+ * @returns {CanonicalSpec} 정규화된 API 명세 (CanonicalSpec)
+ *
+ * @example
+ * const oas2 = {
+ *   swagger: "2.0",
+ *   info: { title: "API", version: "1.0" },
+ *   paths: {
+ *     "/users": {
+ *       get: {
+ *         summary: "List users",
+ *         responses: { 200: { description: "OK" } }
+ *       }
+ *     }
+ *   }
+ * };
+ *
+ * const canonical = canonicalizeOASV2(oas2);
+ * // Result:
+ * // {
+ * //   info: { title: "API", version: "1.0" },
+ * //   operations: {
+ * //     "GET /users": {
+ * //       method: "GET",
+ * //       path: "/users",
+ * //       ...
+ * //     }
+ * //   }
+ * // }
+ */
 export function canonicalizeOASV2(doc: OpenAPIV2.Document): CanonicalSpec {
     const operations: Record<OperationKey, CanonicalOperation> = {};
 
@@ -59,6 +94,29 @@ export function canonicalizeOASV2(doc: OpenAPIV2.Document): CanonicalSpec {
     };
 }
 
+/**
+ * 단일 Operation 객체를 CanonicalOperation으로 변환
+ * - path params와 operation params를 합침
+ * - 파라미터를 위치별(query, header, body 등)로 분류
+ * - request body와 response를 정규화
+ *
+ * @example
+ * const op = createCanonicalOperation(
+ *      doc,
+ *      "get",
+ *      "/users/{id}",
+ *      operation,
+ *      pathParams,
+ * );
+ * // Result:
+ * // {
+ * //   key: "GET /users/{id}",
+ * //   method: "GET",
+ * //   path: "/users/{id}",
+ * //   request: { params: [...] },
+ * //   responses: { ... }
+ * // }
+ */
 export function createCanonicalOperation(
     doc: OpenAPIV2.Document,
     method: string,
@@ -109,6 +167,26 @@ export function createCanonicalOperation(
     return canonicalOp;
 }
 
+/**
+ * 파라미터 목록을 카테고리별로 분류
+ * @example
+ * const params = [
+ *      { in: "query", name: "name", type: "string" },
+ *      { in: "body", name: "body", type: "object" },
+ *      { in: "formData", name: "formData", type: "string" },
+ * ];
+ * const { requestParams, formDataParams, bodyParam } =
+ *      categorizeParameters(params);
+ * // Result:
+ * // {
+ * //      requestParams: [
+ * //              { name: "name", in: "query", type: "string" },
+ * //              { name: "formData", in: "formData", type: "string" },
+ * //      ],
+ * //      formDataParams: [],
+ * //      bodyParam: { name: "body", in: "body", type: "object" },
+ * // }
+ */
 export function categorizeParameters(allParams: OpenAPIV2.ParameterObject[]) {
     const requestParams: CanonicalParam[] = [];
     const formDataParams: OpenAPIV2.GeneralParameterObject[] = [];
@@ -129,6 +207,19 @@ export function categorizeParameters(allParams: OpenAPIV2.ParameterObject[]) {
     return { requestParams, formDataParams, bodyParam };
 }
 
+/**
+ * 일반 파라미터(query, path, header)를 CanonicalParam으로 변환
+ * @example
+ * const param = { name: "id", in: "path", required: true, type: "integer" };
+ * const canonical = normalizeGeneralParam(param);
+ * // Result
+ * {
+ *      name: "id",
+ *      in: "path",
+ *      required: true,
+ *      schema: { type: "integer" }
+ * }
+ */
 export function normalizeGeneralParam(
     param: OpenAPIV2.ParameterObject,
 ): CanonicalParam {
@@ -159,6 +250,42 @@ export function normalizeGeneralParam(
     return paramObj;
 }
 
+/**
+ * 요청 본문(Request Body)을 처리
+ * - body 파라미터가 있으면 이를 기반으로 CanonicalBody를 생성
+ * - formData 파라미터가 있으면 이를 객체 스키마로 변환하여 CanonicalBody를 생성
+ * @example
+ * const doc = {
+ *      consumes: ["application/json"],
+ *      // ...
+ * };
+ * const bodyParam = {
+ *      required: true,
+ *      schema: {
+ *              type: "object",
+ *              properties: {
+ *                      id: { type: "integer" },
+ *                      name: { type: "string" },
+ *              },
+ *      },
+ * };
+ * const canonicalBody = processRequestBody(doc, operation, bodyParam, formDataParams);
+ * // Result
+ * {
+ *      required: true,
+ *      content: {
+ *              "application/json": {
+ *                      schema: {
+ *                              type: "object",
+ *                              properties: {
+ *                                      id: { type: "integer" },
+ *                                      name: { type: "string" },
+ *                              },
+ *                      },
+ *              },
+ *      },
+ * }
+ */
 export function processRequestBody(
     doc: OpenAPIV2.Document,
     operation: OpenAPIV2.OperationObject,
@@ -183,6 +310,40 @@ export function processRequestBody(
     return undefined;
 }
 
+/**
+ * FormData 파라미터 목록을 하나의 객체 스키마로 변환
+ * - 각 파라미터를 객체의 프로퍼티로 변환
+ * - consumes 필드를 참조하여 컨텐츠 타입 결정 (기본: application/x-www-form-urlencoded)
+ *
+ * @example
+ * const doc = {
+ *      consumes: ["application/x-www-form-urlencoded"],
+ *      // ...
+ * };
+ * const operation = {
+ *      // ...
+ * };
+ * const formDataParams = [
+ *      { name: "id", in: "formData", required: true, type: "integer" },
+ *      { name: "name", in: "formData", required: false, type: "string" },
+ * ];
+ * const canonicalBody = processFormData(doc, operation, formDataParams);
+ * // Result
+ * {
+ *      required: true,
+ *      content: {
+ *              "application/x-www-form-urlencoded": {
+ *                      schema: {
+ *                              type: "object",
+ *                              properties: {
+ *                                      id: { type: "integer" },
+ *                                      name: { type: "string" },
+ *                              },
+ *                      },
+ *              },
+ *      },
+ * }
+ */
 export function processFormData(
     doc: OpenAPIV2.Document,
     operation: OpenAPIV2.OperationObject,
@@ -192,15 +353,11 @@ export function processFormData(
     const required: string[] = [];
 
     for (const param of formDataParams) {
-        // Copy standard schema properties from the parameter
-        // We exclude parameter-specific fields like 'name', 'in', 'required' (handled separately), 'description' (maybe?), 'allowEmptyValue', etc.
-        // But simply copying everything except specific ones or whitelist is safer.
-        // Let's iterate and copy properties that are valid in JSON Schema.
         const {
             name,
             in: inParam,
             required: requiredParam,
-            description, // Description might be useful to keep on the property? Yes.
+            description,
             allowEmptyValue,
             items,
             ...schemaProps
@@ -213,12 +370,9 @@ export function processFormData(
         if (items) {
             properties[name].items = toCanonicalSchema(items);
         }
-
-        // Also keep description on the property level if desired for consistency with body schema
         if (description) {
             properties[name].description = description;
         }
-
         if (param.required) {
             required.push(param.name);
         }
@@ -232,7 +386,7 @@ export function processFormData(
     const schema = {
         type: "object",
         properties,
-    } as any;
+    };
 
     const requiredSet = new Set(required);
     for (const propKey of Object.keys(properties)) {
@@ -249,6 +403,46 @@ export function processFormData(
     };
 }
 
+/**
+ * 응답 목록(Responses)을 처리
+ * - 상태 코드별로 순회하며 정규화 수행
+ * - $ref가 있는 응답은 현재 구현에서 무시 (deref된 문서를 가정)
+ *
+ * @example
+ * const doc = {
+ *      // ...
+ * };
+ * const responses = {
+ *      "200": {
+ *              description: "OK",
+ *              schema: {
+ *                      type: "object",
+ *                      properties: {
+ *                              id: { type: "integer" },
+ *                              name: { type: "string" },
+ *                      },
+ *              },
+ *      },
+ * };
+ * const canonicalResponses = processResponses(doc, responses);
+ * // Result
+ * {
+ *      "200": {
+ *              description: "OK",
+ *              content: {
+ *                      "application/json": {
+ *                              schema: {
+ *                                      type: "object",
+ *                                      properties: {
+ *                                              id: { type: "integer" },
+ *                                              name: { type: "string" },
+ *                                      },
+ *                              },
+ *                      },
+ *              },
+ *      },
+ * }
+ */
 export function processResponses(
     doc: OpenAPIV2.Document,
     responses: OpenAPIV2.ResponsesObject,
@@ -264,6 +458,41 @@ export function processResponses(
     return result;
 }
 
+/**
+ * 개별 응답 객체 정규화
+ * - description 복사
+ * - schema 존재하면 `produces` 필드 참조하여 content 맵 생성
+ * @example
+ * const doc = {
+ *      // ...
+ * };
+ * const resObj = {
+ *      description: "OK",
+ *      schema: {
+ *              type: "object",
+ *              properties: {
+ *                      id: { type: "integer" },
+ *                      name: { type: "string" },
+ *              },
+ *      },
+ * };
+ * const canonicalResponse = normalizeResponse(doc, resObj);
+ * // Result
+ * {
+ *      description: "OK",
+ *      content: {
+ *              "application/json": {
+ *                      schema: {
+ *                              type: "object",
+ *                              properties: {
+ *                                      id: { type: "integer" },
+ *                                      name: { type: "string" },
+ *                              },
+ *                      },
+ *              },
+ *      },
+ * }
+ */
 export function normalizeResponse(
     doc: OpenAPIV2.Document,
     resObj: OpenAPIV2.ResponseObject,
@@ -284,6 +513,24 @@ export function normalizeResponse(
     return canonicalResponse;
 }
 
+/**
+ * 문서화용 메타데이터(operationId, summary, description, tags) 추출
+ * @example
+ * const operation = {
+ *      operationId: "getUser",
+ *      summary: "Get user",
+ *      description: "Get user by ID",
+ *      tags: ["User"],
+ * };
+ * const docMetadata = extractDocMetadata(operation);
+ * // Result
+ * {
+ *      operationId: "getUser",
+ *      summary: "Get user",
+ *      description: "Get user by ID",
+ *      tags: ["User"],
+ * }
+ */
 export function extractDocMetadata(
     operation: OpenAPIV2.OperationObject,
 ): CanonicalOperationDoc {
