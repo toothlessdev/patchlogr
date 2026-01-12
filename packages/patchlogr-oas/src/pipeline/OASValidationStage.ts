@@ -1,7 +1,7 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 
-import { PipelineStage } from "./PipelineExecutor";
-import { OASStageContext } from "./OASStageContext";
+import type { PipelineStage } from "./PipelineExecutor";
+import type { OASStageContext } from "./OASStageContext";
 import { getOASVersion } from "../utils/oasVersionUtils";
 
 /**

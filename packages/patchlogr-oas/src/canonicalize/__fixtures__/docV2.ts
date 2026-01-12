@@ -1,4 +1,4 @@
-import { OpenAPIV2 } from "openapi-types";
+import type { OpenAPIV2 } from "openapi-types";
 
 export const docV2: OpenAPIV2.Document = {
     swagger: "2.0",

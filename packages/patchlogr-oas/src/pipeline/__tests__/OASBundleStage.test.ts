@@ -1,8 +1,8 @@
 import { describe, expect, test } from "vitest";
 import { OASBundleStage } from "../OASBundleStage";
-import { OASStageContext } from "../OASStageContext";
+import type { OASStageContext } from "../OASStageContext";
 import path from "path";
-import { OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV3 } from "openapi-types";
 
 describe("OASBundleStage", () => {
     test("should dereference external $ref correctly", async () => {

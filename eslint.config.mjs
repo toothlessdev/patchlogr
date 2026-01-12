@@ -11,6 +11,7 @@ export default tseslint.config(
             "**/node_modules/**",
             "**/.turbo/**",
             "**/coverage/**",
+            "**/.coverage/**",
             "**/.yarn/**",
             "**/.pnp.*",
             "**/*.mjs",
@@ -48,11 +49,19 @@ export default tseslint.config(
                     argsIgnorePattern: "^_",
                 },
             ],
+            "@typescript-eslint/consistent-type-imports": [
+                "error",
+                {
+                    prefer: "type-imports",
+                    disallowTypeAnnotations: false,
+                },
+            ],
         },
     },
     {
         files: ["**/*.{test,spec}.{ts,tsx,js,jsx}"],
         rules: {
+            "@typescript-eslint/no-explicit-any": "off",
             "no-restricted-imports": [
                 "error",
                 {

@@ -1,4 +1,4 @@
-import { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import type { OpenAPI, OpenAPIV2, OpenAPIV3 } from "openapi-types";
 
 export function getOASVersion(doc: OpenAPI.Document): string | undefined {
     if (isOpenAPIV3(doc)) {

@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { toCanonicalSchemaV3 } from "../toCanonicalSchemaV3";
-import { OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV3 } from "openapi-types";
 
 describe("toCanonicalSchemaV3", () => {
     it("should convert a simple string schema", () => {

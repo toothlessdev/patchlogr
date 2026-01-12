@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { toCanonicalSchema } from "../toCanonicalSchema";
-import { OpenAPISchemaObjectWithItems } from "../../guards/schemaGuards";
+import type { OpenAPISchemaObjectWithItems } from "../../guards/schemaGuards";
 
 describe("toCanonicalSchema", () => {
     test("should normalize simple schema", () => {

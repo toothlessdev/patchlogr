@@ -30,6 +30,10 @@
             "inputs": ["src/**", "package.json"],
             "outputs": []
         },
+        "lint:fix": {
+            "inputs": ["src/**", "package.json"],
+            "outputs": []
+        },
         "clean": {
             "cache": false,
             "outputs": []

@@ -1,15 +1,15 @@
 {
     "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "module": "nodenext",
         "outDir": "dist",
         "rootDir": "src",
 
+        // build .d.ts
         "declaration": true,
         "declarationMap": true,
         "emitDeclarationOnly": false,
 
-        "lib": ["esnext"]
+        "noEmit": false
     },
     "include": ["src"]
 }

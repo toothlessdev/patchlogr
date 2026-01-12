@@ -1,4 +1,4 @@
-import { OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV2, OpenAPIV3 } from "openapi-types";
 
 export type OpenAPISchemaObject =
     | OpenAPIV2.SchemaObject

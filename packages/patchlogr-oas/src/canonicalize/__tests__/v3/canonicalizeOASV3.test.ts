@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { CanonicalSchema } from "@patchlogr/types";
+import type { CanonicalSchema } from "@patchlogr/types";
 
 import {
     canonicalizeOASV3,

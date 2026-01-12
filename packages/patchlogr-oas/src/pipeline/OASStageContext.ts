@@ -1,5 +1,5 @@
-import { CanonicalSpec } from "@patchlogr/types";
-import { OpenAPI } from "openapi-types";
+import type { CanonicalSpec } from "@patchlogr/types";
+import type { OpenAPI } from "openapi-types";
 
 export type OASStageInput = string | OpenAPI.Document;
 

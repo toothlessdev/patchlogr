@@ -1,10 +1,7 @@
-import { CanonicalSchema } from "@patchlogr/types";
-import { OpenAPIV2, OpenAPIV3 } from "openapi-types";
-import {
-    isSchemaObject,
-    OpenAPISchemaObject,
-    isOpenAPIV3Schema,
-} from "../guards/schemaGuards";
+import { type CanonicalSchema } from "@patchlogr/types";
+import type { OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import type { OpenAPISchemaObject } from "../guards/schemaGuards";
+import { isSchemaObject, isOpenAPIV3Schema } from "../guards/schemaGuards";
 import { toCanonicalSchemaV2 } from "./toCanonicalSchemaV2";
 import { toCanonicalSchemaV3 } from "./toCanonicalSchemaV3";
 

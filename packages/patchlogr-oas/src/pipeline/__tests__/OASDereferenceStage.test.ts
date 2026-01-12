@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest";
 import { OASDereferenceStage } from "../OASDereferenceStage";
-import { OASStageContext } from "../OASStageContext";
+import type { OASStageContext } from "../OASStageContext";
 
 describe("OASDereferenceStage", () => {
     test("should throw an error if input.oas is missing", async () => {
