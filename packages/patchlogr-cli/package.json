@@ -4,17 +4,23 @@
     "publishConfig": {
         "access": "public"
     },
+    "bin": {
+        "patchlogr": "./dist/index.js"
+    },
     "scripts": {
         "clean": "rm -rf dist",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
         "build:js": "node ./esbuild.mjs",
         "build": "yarn clean && yarn build:types && yarn build:js",
+        "preview": "node dist/index.js",
         "test": "vitest",
         "lint": "eslint ."
     },
     "dependencies": {
-        "@patchlogr/core": "workspace:*"
+        "@patchlogr/core": "workspace:*",
+        "@patchlogr/oas": "workspace:*",
+        "commander": "^14.0.2"
     },
     "devDependencies": {
         "@types/node": "24",
