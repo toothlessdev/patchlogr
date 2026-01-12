@@ -10,6 +10,7 @@
         "build": "turbo run build --cache-dir=.turbo",
         "test": "turbo run test --cache-dir=.turbo",
         "lint": "turbo run lint --cache-dir=.turbo",
+        "lint:fix": "turbo run lint:fix --cache-dir=.turbo",
         "typecheck": "turbo run typecheck --cache-dir=.turbo",
         "clean": "turbo run clean && rm -rf node_modules .turbo"
     },

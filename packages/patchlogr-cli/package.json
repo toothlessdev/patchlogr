@@ -15,7 +15,8 @@
         "build": "yarn clean && yarn build:types && yarn build:js",
         "preview": "node dist/index.js",
         "test": "vitest",
-        "lint": "eslint ."
+        "lint": "eslint .",
+        "lint:fix": "eslint . --fix"
     },
     "dependencies": {
         "@patchlogr/core": "workspace:*",
