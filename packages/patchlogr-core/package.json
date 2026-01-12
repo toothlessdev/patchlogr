@@ -27,7 +27,8 @@
     },
     "dependencies": {
         "@apidevtools/swagger-parser": "^12.1.0",
-        "@patchlogr/oas": "workspace:*"
+        "@patchlogr/oas": "workspace:^",
+        "@patchlogr/types": "workspace:^"
     },
     "devDependencies": {
         "esbuild": "^0.27.2",

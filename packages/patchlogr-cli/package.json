@@ -19,13 +19,14 @@
         "lint:fix": "eslint . --fix"
     },
     "dependencies": {
-        "@patchlogr/core": "workspace:*",
-        "@patchlogr/oas": "workspace:*",
+        "@patchlogr/core": "workspace:^",
+        "@patchlogr/oas": "workspace:^",
         "commander": "^14.0.2"
     },
     "devDependencies": {
         "@types/node": "24",
         "esbuild": "^0.27.2",
+        "openapi-types": "^12.1.3",
         "typescript": "^5.9.3",
         "vitest": "^4.0.16"
     }
