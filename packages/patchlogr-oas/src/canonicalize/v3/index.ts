@@ -1,4 +1,4 @@
-import {
+import type {
     CanonicalOperation,
     CanonicalParam,
     CanonicalSpec,
@@ -9,7 +9,7 @@ import {
     CanonicalOperationDoc,
     CanonicalSecurityRequirement,
 } from "@patchlogr/types";
-import { OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV3 } from "openapi-types";
 import { toCanonicalSchema } from "../../utils/toCanonicalSchema";
 
 const HTTP_METHODS = [

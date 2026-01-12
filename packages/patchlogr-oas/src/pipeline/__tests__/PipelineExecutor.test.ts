@@ -1,5 +1,6 @@
 import { describe, expect, test, vitest } from "vitest";
-import { PipelineExecutor, PipelineStage } from "../PipelineExecutor";
+import type { PipelineStage } from "../PipelineExecutor";
+import { PipelineExecutor } from "../PipelineExecutor";
 
 describe("PipelineExecutor", () => {
     test("should append stages correctly", () => {

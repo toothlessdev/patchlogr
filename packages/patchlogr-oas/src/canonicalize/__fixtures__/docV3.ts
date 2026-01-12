@@ -1,4 +1,4 @@
-import { OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV3 } from "openapi-types";
 
 export const docV3: OpenAPIV3.Document = {
     openapi: "3.0.0",

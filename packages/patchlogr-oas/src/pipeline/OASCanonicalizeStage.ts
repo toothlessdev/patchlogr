@@ -1,6 +1,6 @@
-import { CanonicalSpec } from "@patchlogr/types";
-import { OASStageContext } from "./OASStageContext";
-import { PipelineStage } from "./PipelineExecutor";
+import type { CanonicalSpec } from "@patchlogr/types";
+import type { OASStageContext } from "./OASStageContext";
+import type { PipelineStage } from "./PipelineExecutor";
 import { canonicalizeOASV2 } from "../canonicalize/v2";
 import { canonicalizeOASV3 } from "../canonicalize/v3";
 import { isOpenAPIV2, isOpenAPIV3 } from "../utils/oasVersionUtils";

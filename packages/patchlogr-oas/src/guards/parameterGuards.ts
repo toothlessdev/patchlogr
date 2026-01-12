@@ -1,4 +1,4 @@
-import { CanonicalParam } from "@patchlogr/types";
+import type { CanonicalParam } from "@patchlogr/types";
 
 export function isValidCanonicalParamIn(
     val: string,

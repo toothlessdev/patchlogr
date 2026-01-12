@@ -1,6 +1,6 @@
 import { describe, expect, test } from "vitest";
 import { preprocessOASDocument } from "../index";
-import { OpenAPIV2, OpenAPIV3 } from "openapi-types";
+import type { OpenAPIV2, OpenAPIV3 } from "openapi-types";
 
 const docV2: OpenAPIV2.Document = {
     swagger: "2.0",

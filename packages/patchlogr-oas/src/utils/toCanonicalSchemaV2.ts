@@ -1,9 +1,7 @@
-import { CanonicalSchema } from "@patchlogr/types";
-import { OpenAPIV2 } from "openapi-types";
-import {
-    isSchemaObject,
-    OpenAPISchemaObjectWithCommonProps,
-} from "../guards/schemaGuards";
+import { type CanonicalSchema } from "@patchlogr/types";
+import { type OpenAPIV2 } from "openapi-types";
+import type { OpenAPISchemaObjectWithCommonProps } from "../guards/schemaGuards";
+import { isSchemaObject } from "../guards/schemaGuards";
 
 export function toCanonicalSchemaV2(
     schema: OpenAPIV2.SchemaObject | undefined,

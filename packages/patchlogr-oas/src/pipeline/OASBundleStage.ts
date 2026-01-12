@@ -1,6 +1,6 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
-import { OASStageContext } from "./OASStageContext";
-import { PipelineStage } from "./PipelineExecutor";
+import type { OASStageContext } from "./OASStageContext";
+import type { PipelineStage } from "./PipelineExecutor";
 
 /**
  * 외부 $ref, schema 를 포함한 모든 문서를 합침
