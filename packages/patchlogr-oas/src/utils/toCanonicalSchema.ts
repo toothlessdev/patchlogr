@@ -1,5 +1,4 @@
 import { type CanonicalSchema } from "@patchlogr/types";
-import type { OpenAPIV2, OpenAPIV3 } from "openapi-types";
 import type { OpenAPISchemaObject } from "../guards/schemaGuards";
 import { isSchemaObject, isOpenAPIV3Schema } from "../guards/schemaGuards";
 import { toCanonicalSchemaV2 } from "./toCanonicalSchemaV2";
@@ -15,7 +14,8 @@ export function toCanonicalSchema(
         return schema || {};
     }
 
-    if (isOpenAPIV3Schema(schema))
-        return toCanonicalSchemaV3(schema as OpenAPIV3.SchemaObject);
-    return toCanonicalSchemaV2(schema as OpenAPIV2.SchemaObject);
+    if (isOpenAPIV3Schema(schema)) {
+        return toCanonicalSchemaV3(schema);
+    }
+    return toCanonicalSchemaV2(schema);
 }

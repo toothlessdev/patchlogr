@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import { runCanonicalize } from "./commands/runCanonicalize";
 
 export function createCLI() {
     const program = new Command();
@@ -10,12 +11,14 @@ export function createCLI() {
 
     program
         .command("help")
-        .description("Display help information about patchlogr commands");
+        .description("Display help information about patchlogr commands")
+        .action(() => {
+            program.outputHelp();
+        });
 
     program
         .command("canonicalize")
         .argument("<api-docs>", "Path to the OpenAPI specification file")
-        .option("--canonicalize", "Canonicalize the OpenAPI specification")
         .option(
             "--skipValidation",
             "Skip validation of the OpenAPI specification",
@@ -23,12 +26,13 @@ export function createCLI() {
         .option(
             "-o, --output <file>",
             "Write result to file instead of stdout (default: stdout)",
+            "stdout",
         )
         .action(async (apiDocs, options) => {
             try {
-                console.log("[patchlogr] Processing:", apiDocs, options);
+                await runCanonicalize(apiDocs, options);
             } catch (error) {
-                console.error("[patchlogr] Error:", (error as Error).message);
+                console.error(error);
                 process.exitCode = 1;
             }
         });

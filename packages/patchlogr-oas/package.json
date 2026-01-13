@@ -28,6 +28,6 @@
     },
     "dependencies": {
         "@apidevtools/swagger-parser": "^12.1.0",
-        "@patchlogr/types": "workspace:*"
+        "@patchlogr/types": "workspace:^"
     }
 }
