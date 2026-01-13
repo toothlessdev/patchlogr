@@ -8,7 +8,7 @@
 
 - [ ] @patchlogr/core
 - [ ] @patchlogr/cli
-- [ ] @patchlogr/canonicalizer
+- [ ] @patchlogr/oas
 - [ ] @patchlogr/inspector
 - [ ] @patchlogr/types
 - [ ] docs, examples
