@@ -21,7 +21,9 @@ export async function runCanonicalize(
         try {
             await fs.writeFile(options.output, JSON.stringify(output, null, 2));
         } catch (error) {
-            console.error(`Failed to write to file ${options.output}:`, error);
+            throw new Error(`Failed to write to file ${options.output}:`, {
+                cause: error,
+            });
         }
     }
 }
