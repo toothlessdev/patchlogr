@@ -15,7 +15,8 @@ export function toCanonicalSchema(
         return schema || {};
     }
 
-    if (isOpenAPIV3Schema(schema))
-        return toCanonicalSchemaV3(schema as OpenAPIV3.SchemaObject);
-    return toCanonicalSchemaV2(schema as OpenAPIV2.SchemaObject);
+    if (isOpenAPIV3Schema(schema)) {
+        return toCanonicalSchemaV3(schema);
+    }
+    return toCanonicalSchemaV2(schema);
 }
