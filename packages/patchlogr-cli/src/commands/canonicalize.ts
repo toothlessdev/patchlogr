@@ -1,4 +1,4 @@
-import { program } from "commander";
+import { Command } from "commander";
 
 import { preprocessOASDocument } from "@patchlogr/oas";
 import { type OASStageOptions } from "@patchlogr/oas";
@@ -9,8 +9,7 @@ export type CanonicalizeOptions = OASStageOptions & {
     output?: "stdout" | string;
 };
 
-export const canonicalizeCommand = program
-    .command("canonicalize")
+export const canonicalizeCommand = new Command("canonicalize")
     .argument("<api-docs>", "Path to the OpenAPI specification file")
     .option("--skipValidation", "Skip validation of the OpenAPI specification")
     .option(
