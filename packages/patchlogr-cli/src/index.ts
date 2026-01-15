@@ -1,4 +1,4 @@
-import { createCLI } from "./cli";
+import { createCLI } from "./createCLI";
 
 const program = createCLI();
 
