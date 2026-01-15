@@ -1,4 +1,4 @@
-import { Command, CommandOptions, program } from "commander";
+import { program } from "commander";
 
 export const helpCommand = program
     .command("help")
