@@ -7,7 +7,9 @@
 
         "declaration": true,
         "declarationMap": true,
-        "emitDeclarationOnly": false
+        "emitDeclarationOnly": false,
+
+        "resolveJsonModule": true
     },
     "include": ["src"]
 }
