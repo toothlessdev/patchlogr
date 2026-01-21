@@ -1,8 +1,3 @@
-export type PartitionManifest = {
-    key: string;
-    hash: string;
-};
-
 export type Partition = {
     hash: string;
     operationKey: string;
