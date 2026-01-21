@@ -1,6 +1,6 @@
 import type { CanonicalSpec } from "@patchlogr/types";
 import { describe, expect, test } from "vitest";
-import { partitionByTag } from "../partitionByTag";
+import { DEFAULT_TAG, partitionByTag } from "../partitionByTag";
 
 describe("partitionByTag", () => {
     test("should group by first tag", () => {
@@ -64,6 +64,29 @@ describe("partitionByTag", () => {
         expect(partitions.get("user")?.[0]?.operationKey).toBe("GET /user");
         expect(partitions.get("auth")?.[0]?.operationKey).toBe(
             "POST /auth/login",
+        );
+    });
+
+    test("should group into default tag if tag not exists", () => {
+        const spec: CanonicalSpec = {
+            operations: {
+                "GET /user": {
+                    key: "GET /user",
+                    doc: { tags: [] },
+                    method: "GET",
+                    path: "/user",
+                    request: { params: [] },
+                    responses: {},
+                },
+            },
+        };
+
+        const partitions = partitionByTag(spec).partitions;
+
+        expect(partitions).toHaveLength(1);
+        expect(partitions.get(DEFAULT_TAG)).toHaveLength(1);
+        expect(partitions.get(DEFAULT_TAG)?.[0]?.operationKey).toBe(
+            "GET /user",
         );
     });
 });

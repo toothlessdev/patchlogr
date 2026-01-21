@@ -4,7 +4,7 @@ import type { Partition, PartitionedSpec } from "./partition";
 import { createSHA256Hash } from "../utils/createHash";
 import { stableStringify } from "../utils/stableStringify";
 
-const DEFAULT_TAG = "__DEFAULT__";
+export const DEFAULT_TAG = "__DEFAULT__";
 
 export function partitionByTag(spec: CanonicalSpec): PartitionedSpec {
     const partitions = new Map<string, Partition[]>();
