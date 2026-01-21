@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { partitionByMethod } from "../partitionByMethod";
 
 describe("partitionByMethod", () => {
-    test("should group by first tag", () => {
+    test("should group by HTTPMethod", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {
@@ -34,7 +34,7 @@ describe("partitionByMethod", () => {
         );
     });
 
-    test("should group by multiple tags", () => {
+    test("should group by multiple HTTPMethods", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {
