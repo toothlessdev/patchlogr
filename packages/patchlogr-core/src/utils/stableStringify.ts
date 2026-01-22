@@ -1,4 +1,4 @@
-export function stableStringify(obj: Record<string, unknown>): string {
+export function stableStringify(obj: any): string {
     return JSON.stringify(sortObjectKeys(obj));
 }
 
