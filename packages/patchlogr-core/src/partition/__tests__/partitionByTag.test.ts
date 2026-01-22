@@ -1,7 +1,7 @@
 import type { CanonicalSpec } from "@patchlogr/types";
 import { describe, expect, test } from "vitest";
 import { DEFAULT_TAG, partitionByTag } from "../partitionByTag";
-import { HashInternalNode } from "../partition";
+import type { HashInternalNode } from "../partition";
 
 describe("partitionByTag", () => {
     test("should group by first tag", () => {

@@ -1,7 +1,7 @@
 import type { CanonicalSpec } from "@patchlogr/types";
 import { describe, expect, test } from "vitest";
 import { partitionByMethod } from "../partitionByMethod";
-import { HashInternalNode, HashLeafNode } from "../partition";
+import type { HashInternalNode } from "../partition";
 
 describe("partitionByMethod", () => {
     test("should group by HTTPMethod", () => {
