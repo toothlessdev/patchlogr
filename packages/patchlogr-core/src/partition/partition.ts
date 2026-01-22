@@ -4,6 +4,7 @@ export type Partition = {
 };
 
 export type PartitionedSpec = {
+    hash: string;
     metadata: Record<string, unknown>;
     partitions: Map<string, Partition[]>;
 };
