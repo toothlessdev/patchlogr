@@ -1,6 +1,7 @@
 import type { CanonicalSpec } from "@patchlogr/types";
 import { describe, expect, test } from "vitest";
 import { DEFAULT_TAG, partitionByTag } from "../partitionByTag";
+import { HashInternalNode } from "../partition";
 
 describe("partitionByTag", () => {
     test("should group by first tag", () => {
@@ -25,13 +26,21 @@ describe("partitionByTag", () => {
             },
         };
 
-        const partitions = partitionByTag(spec).partitions;
-        expect(partitions).toHaveLength(1);
-        expect(partitions.get("user")).toHaveLength(2);
-        expect(partitions.get("user")?.[0]?.operationKey).toBe("GET /user");
-        expect(partitions.get("user")?.[1]?.operationKey).toBe(
-            "GET /user/{userId}",
-        );
+        const result = partitionByTag(spec);
+        expect(result.root.type).toBe("node");
+        expect(result.root.key).toBe("root");
+
+        const root = result.root as HashInternalNode;
+        expect(root.children).toHaveLength(1);
+
+        const userTagNode = root.children.find(
+            (child) => child.key === "user",
+        ) as HashInternalNode;
+
+        expect(userTagNode.type).toBe("node");
+        expect(userTagNode.children).toHaveLength(2);
+        expect(userTagNode.children[0]?.key).toBe("GET /user");
+        expect(userTagNode.children[1]?.key).toBe("GET /user/{userId}");
     });
 
     test("should group by multiple tags", () => {
@@ -56,15 +65,24 @@ describe("partitionByTag", () => {
             },
         };
 
-        const partitions = partitionByTag(spec).partitions;
+        const result = partitionByTag(spec);
+        expect(result.root.type).toBe("node");
 
-        expect(partitions).toHaveLength(2);
-        expect(partitions.get("user")).toHaveLength(1);
-        expect(partitions.get("auth")).toHaveLength(1);
-        expect(partitions.get("user")?.[0]?.operationKey).toBe("GET /user");
-        expect(partitions.get("auth")?.[0]?.operationKey).toBe(
-            "POST /auth/login",
-        );
+        const root = result.root as HashInternalNode;
+        expect(root.children).toHaveLength(2);
+
+        const userTagNode = root.children.find(
+            (child) => child.key === "user",
+        ) as HashInternalNode;
+        const authTagNode = root.children.find(
+            (child) => child.key === "auth",
+        ) as HashInternalNode;
+
+        expect(userTagNode.children).toHaveLength(1);
+        expect(userTagNode.children[0]?.key).toBe("GET /user");
+
+        expect(authTagNode.children).toHaveLength(1);
+        expect(authTagNode.children[0]?.key).toBe("POST /auth/login");
     });
 
     test("should group into default tag if tag not exists", () => {
@@ -81,12 +99,18 @@ describe("partitionByTag", () => {
             },
         };
 
-        const partitions = partitionByTag(spec).partitions;
+        const result = partitionByTag(spec);
+        expect(result.root.type).toBe("node");
 
-        expect(partitions).toHaveLength(1);
-        expect(partitions.get(DEFAULT_TAG)).toHaveLength(1);
-        expect(partitions.get(DEFAULT_TAG)?.[0]?.operationKey).toBe(
-            "GET /user",
-        );
+        const root = result.root as HashInternalNode;
+        expect(root.children).toHaveLength(1);
+
+        const defaultTagNode = root.children.find(
+            (child) => child.key === DEFAULT_TAG,
+        ) as HashInternalNode;
+
+        expect(defaultTagNode.type).toBe("node");
+        expect(defaultTagNode.children).toHaveLength(1);
+        expect(defaultTagNode.children[0]?.key).toBe("GET /user");
     });
 });
