@@ -188,7 +188,7 @@ export type CanonicalOperation = CanonicalOperationContract & {
     doc?: CanonicalOperationDoc;
 };
 
-export interface CanonicalSpec {
+export type CanonicalSpec = {
     info?: {
         title?: string;
         version?: string;
@@ -202,4 +202,4 @@ export interface CanonicalSpec {
      */
     security?: CanonicalSecurityRequirement[];
     operations: Record<OperationKey, CanonicalOperation>;
-}
+};

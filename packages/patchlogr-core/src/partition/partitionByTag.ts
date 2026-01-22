@@ -19,6 +19,7 @@ export function partitionByTag(spec: CanonicalSpec): PartitionedSpec {
     });
 
     return {
+        hash: createSHA256Hash(stableStringify(spec)),
         metadata: {
             ...spec.info,
             ...spec.security,
