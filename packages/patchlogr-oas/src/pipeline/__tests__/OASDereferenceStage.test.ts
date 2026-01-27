@@ -3,7 +3,7 @@ import { OASDereferenceStage } from "../OASDereferenceStage";
 import type { OASStageContext } from "../OASStageContext";
 
 describe("OASDereferenceStage", () => {
-    test("should throw an error if input.oas is missing", async () => {
+    test("input.oas가 없으면 에러를 던진다", async () => {
         const stage = new OASDereferenceStage();
         const input: OASStageContext = {
             source: "{}",

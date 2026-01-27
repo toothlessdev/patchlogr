@@ -3,7 +3,7 @@ import { toCanonicalSchemaV3 } from "../toCanonicalSchemaV3";
 import type { OpenAPIV3 } from "openapi-types";
 
 describe("toCanonicalSchemaV3", () => {
-    it("should convert a simple string schema", () => {
+    it("string schema를 canonical schema로 변환한다", () => {
         const input: OpenAPIV3.SchemaObject = {
             type: "string",
         };
@@ -13,7 +13,7 @@ describe("toCanonicalSchemaV3", () => {
         });
     });
 
-    it("should handle required fields", () => {
+    it("required fields를 canonical schema로 변환한다", () => {
         const input: OpenAPIV3.SchemaObject = {
             type: "object",
             required: ["id"],
@@ -27,7 +27,7 @@ describe("toCanonicalSchemaV3", () => {
         expect(output.properties?.name?.required).toBe(false);
     });
 
-    it("should handle missing type (V3 allows missing type)", () => {
+    it("missing type을 canonical schema로 변환한다", () => {
         const input: OpenAPIV3.SchemaObject = {
             description: "Just description",
         };
@@ -35,7 +35,7 @@ describe("toCanonicalSchemaV3", () => {
         expect(output.description).toBe("Just description");
     });
 
-    it("should handle nullable (V3 property)", () => {
+    it("nullable을 canonical schema로 변환한다", () => {
         const input: OpenAPIV3.SchemaObject = {
             type: "string",
             nullable: true,

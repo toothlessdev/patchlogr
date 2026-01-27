@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { partitionByMethod } from "../partitionByMethod";
 
 describe("partitionByMethod", () => {
-    test("should group by HTTPMethod", () => {
+    test("HTTPMethod 를 기준으로 파티셔닝 한다", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {
@@ -43,7 +43,7 @@ describe("partitionByMethod", () => {
         expect(getMethodNode?.children?.[1]?.key).toBe("GET /user/{userId}");
     });
 
-    test("should group by multiple HTTPMethods", () => {
+    test("여러 HTTPMethod 를 기준으로 파티셔닝 한다", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {

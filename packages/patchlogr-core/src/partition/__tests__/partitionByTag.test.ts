@@ -3,7 +3,7 @@ import { describe, expect, test } from "vitest";
 import { DEFAULT_TAG, partitionByTag } from "../partitionByTag";
 
 describe("partitionByTag", () => {
-    test("should group by first tag", () => {
+    test("첫 번째 tag를 기준으로 파티셔닝 한다", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {
@@ -42,7 +42,7 @@ describe("partitionByTag", () => {
         expect(userTagNode?.children?.[1]?.key).toBe("GET /user/{userId}");
     });
 
-    test("should group by multiple tags", () => {
+    test("여러 tag를 기준으로 파티셔닝 한다", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {
@@ -84,7 +84,7 @@ describe("partitionByTag", () => {
         expect(authTagNode?.children?.[0]?.key).toBe("POST /auth/login");
     });
 
-    test("should group into default tag if tag not exists", () => {
+    test("tag가 없는 경우 default tag로 파티셔닝 한다", () => {
         const spec: CanonicalSpec = {
             operations: {
                 "GET /user": {

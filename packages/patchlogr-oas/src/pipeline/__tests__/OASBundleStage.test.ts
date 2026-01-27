@@ -5,7 +5,7 @@ import path from "path";
 import type { OpenAPIV3 } from "openapi-types";
 
 describe("OASBundleStage", () => {
-    test("should dereference external $ref correctly", async () => {
+    test("external $ref를 dereference한다", async () => {
         const oasBundleStage = new OASBundleStage();
 
         const input: OASStageContext = {

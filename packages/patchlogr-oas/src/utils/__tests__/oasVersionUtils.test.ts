@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 import { getOASVersion, isOpenAPIV2, isOpenAPIV3 } from "../oasVersionUtils";
 
 describe("OASVersionUtils", () => {
-    test("getOASVersion should return correct version for 3.+", () => {
+    test("getOASVersion returns correct version for 3.+", () => {
         const oasVersion = getOASVersion({
             openapi: "3.0.1",
             info: {
@@ -15,7 +15,7 @@ describe("OASVersionUtils", () => {
         expect(oasVersion).toBe("3.0.1");
     });
 
-    test("getOASVersion should return correct version for 2.0", () => {
+    test("getOASVersion 는 2.0 버전을 반환한다", () => {
         const oasVersion = getOASVersion({
             swagger: "2.0",
             info: {
@@ -28,7 +28,7 @@ describe("OASVersionUtils", () => {
         expect(oasVersion).toBe("2.0");
     });
 
-    test("getOASVersion should return undefined for unknown version", () => {
+    test("getOASVersion 은 unknown 버전을 반환한다", () => {
         const oasVersion = getOASVersion({
             info: {
                 title: "Test API",
