@@ -13,18 +13,18 @@ import { docV2 } from "../../__fixtures__/docV2";
 describe("canonicalizeOASV2", () => {
     const spec = canonicalizeOASV2(docV2);
 
-    test("Map 'info' property correctly", () => {
+    test("'info' 를 올바르게 매핑한다", () => {
         expect(spec.info).toEqual(docV2.info);
     });
 
-    test("Generate correct operation keys", () => {
+    test("올바른 operation 키를 생성한다", () => {
         const keys = Object.keys(spec.operations);
         expect(keys).toContain("GET /pets/{petId}");
         expect(keys).toContain("PUT /pets/{petId}");
         expect(keys).toContain("POST /pets/upload");
     });
 
-    test("Merge path-level and operation-level parameters", () => {
+    test("path-level 및 operation-level parameter를 병합한다", () => {
         const op = spec.operations["GET /pets/{petId}"];
         expect(op).toBeDefined();
 
@@ -40,7 +40,7 @@ describe("canonicalizeOASV2", () => {
         expect(includeParam?.in).toBe("query");
     });
 
-    test("Transform body parameter correctly", () => {
+    test("body parameter를 올바르게 변환한다", () => {
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
 
@@ -53,7 +53,7 @@ describe("canonicalizeOASV2", () => {
         ).toHaveProperty("type", "object");
     });
 
-    test("Transform formData to body with correct content-type", () => {
+    test("formData를 올바른 content-type으로 body로 변환한다", () => {
         const op = spec.operations["POST /pets/upload"];
         expect(op).toBeDefined();
 
@@ -75,7 +75,7 @@ describe("canonicalizeOASV2", () => {
         expect(schema!).not.toHaveProperty("required");
     });
 
-    test("Map responses and inherit produces", () => {
+    test("응답과 produces를 올바르게 매핑한다", () => {
         const op = spec.operations["GET /pets/{petId}"];
         expect(op).toBeDefined();
         const successResponse = op?.responses["200"];
@@ -87,14 +87,14 @@ describe("canonicalizeOASV2", () => {
         ).toHaveProperty("type", "object");
     });
 
-    test("Map operation metadata", () => {
+    test("operation 메타데이터를 올바르게 매핑한다", () => {
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
         expect(op?.doc?.operationId).toBe("updatePetV2");
         expect(op?.doc?.summary).toBe("Updates a pet");
     });
 
-    test("Produce full canonical spec matching expected output", () => {
+    test("전체 canonical spec을 올바르게 생성한다", () => {
         expect(spec).toEqual({
             info: {
                 title: "Legacy API",
@@ -278,7 +278,7 @@ describe("canonicalizeOASV2", () => {
 });
 
 describe("categorizeParameters", () => {
-    test("should separate request params, form data, and body param", () => {
+    test("요청 파라미터, form data, body 파라미터를 분리한다", () => {
         const params = [
             { name: "id", in: "path", required: true, type: "string" },
             { name: "field", in: "formData", type: "string" },
@@ -296,7 +296,7 @@ describe("categorizeParameters", () => {
 });
 
 describe("normalizeGeneralParam", () => {
-    test("should normalize general parameter", () => {
+    test("일반 파라미터를 정규화한다", () => {
         const param = {
             name: "id",
             in: "path",
@@ -318,7 +318,7 @@ describe("normalizeGeneralParam", () => {
         });
     });
 
-    test("should include collectionFormat for array type", () => {
+    test("array 타입의 파라미터에 collectionFormat을 포함한다", () => {
         const param = {
             name: "tags",
             in: "query",
@@ -333,7 +333,7 @@ describe("normalizeGeneralParam", () => {
 });
 
 describe("processRequestBody", () => {
-    test("should process body param correctly", () => {
+    test("body 파라미터를 처리한다", () => {
         const doc: any = { consumes: ["application/json"] };
         const op: any = {};
         const bodyParam: any = {
@@ -353,7 +353,7 @@ describe("processRequestBody", () => {
 });
 
 describe("processFormData", () => {
-    test("should process form data correctly", () => {
+    test("form data를 처리한다", () => {
         const doc: any = {};
         const op: any = {
             consumes: ["application/x-www-form-urlencoded"],
@@ -373,7 +373,7 @@ describe("processFormData", () => {
         });
     });
 
-    test("should preserve extra properties (default, enum) and normalize items in form data", () => {
+    test("form data의 추가 프로퍼티 (default, enum)을 유지하고 items를 정규화한다", () => {
         const doc: any = {};
         const op: any = {
             consumes: ["application/x-www-form-urlencoded"],
@@ -426,7 +426,7 @@ describe("processFormData", () => {
 });
 
 describe("processResponses", () => {
-    test("should process responses correctly", () => {
+    test("응답을 처리한다", () => {
         const doc: any = { produces: ["application/json"] };
         const responses: any = {
             "200": {
@@ -447,7 +447,7 @@ describe("processResponses", () => {
 });
 
 describe("extractDocMetadata", () => {
-    test("should extract documentation metadata", () => {
+    test("문서 메타데이터를 추출한다", () => {
         const op: any = {
             operationId: "op1",
             summary: "summary",

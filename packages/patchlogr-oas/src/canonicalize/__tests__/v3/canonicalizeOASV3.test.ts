@@ -11,12 +11,12 @@ import {
 import { docV3 } from "../../__fixtures__/docV3";
 
 describe("canonicalizeOASV3", () => {
-    test("Map 'info' property correctly", () => {
+    test("info 프로퍼티를 올바르게 매핑한다", () => {
         const spec = canonicalizeOASV3(docV3);
         expect(spec.info).toEqual(docV3.info);
     });
 
-    test("Generate correct operation keys", () => {
+    test("operation 키를 올바르게 생성한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const keys = Object.keys(spec.operations);
         expect(keys).toContain("GET /pets/{petId}");
@@ -24,7 +24,7 @@ describe("canonicalizeOASV3", () => {
         expect(keys).toContain("POST /pets/upload");
     });
 
-    test("Merge path-level and operation-level parameters", () => {
+    test("path-level과 operation-level 파라미터를 병합한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["GET /pets/{petId}"];
         expect(op).toBeDefined();
@@ -41,7 +41,7 @@ describe("canonicalizeOASV3", () => {
         expect(includeParam?.in).toBe("query");
     });
 
-    test("Transform body parameter correctly", () => {
+    test("body 파라미터를 올바르게 변환한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
@@ -55,7 +55,7 @@ describe("canonicalizeOASV3", () => {
         ).toHaveProperty("type", "object");
     });
 
-    test("Transform formData (multipart) to body correctly", () => {
+    test("multipart/form-data를 body로 변환한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["POST /pets/upload"];
         expect(op).toBeDefined();
@@ -76,7 +76,7 @@ describe("canonicalizeOASV3", () => {
         expect(schema!).not.toHaveProperty("required");
     });
 
-    test("Map responses and dereference logic", () => {
+    test("응답과 dereference 로직을 매핑한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
@@ -93,7 +93,7 @@ describe("canonicalizeOASV3", () => {
         expect(schema).not.toHaveProperty("$ref");
     });
 
-    test("Map operation metadata", () => {
+    test("operation 메타데이터를 매핑한다", () => {
         const spec = canonicalizeOASV3(docV3);
         const op = spec.operations["PUT /pets/{petId}"];
         expect(op).toBeDefined();
@@ -101,7 +101,7 @@ describe("canonicalizeOASV3", () => {
         expect(op?.doc?.summary).toBe("Updates a pet");
     });
 
-    test("Produce full canonical spec matching expected output", () => {
+    test("전체 canonical spec을 생성한다", () => {
         const spec = canonicalizeOASV3(docV3);
         expect(spec).toEqual({
             info: {
@@ -288,7 +288,7 @@ describe("canonicalizeOASV3", () => {
 
 describe("canonicalizeOASV3 Helpers", () => {
     describe("normalizeParameters", () => {
-        test("should normalize parameters", () => {
+        test("파라미터를 정규화한다", () => {
             const params: any[] = [
                 {
                     name: "id",
@@ -310,7 +310,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("normalizeRequestBody", () => {
-        test("should normalize request body", () => {
+        test("request body를 정규화한다", () => {
             const body: any = {
                 required: true,
                 content: {
@@ -332,7 +332,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("processResponses", () => {
-        test("should process responses", () => {
+        test("응답을 처리한다", () => {
             const responses: any = {
                 "200": {
                     description: "OK",
@@ -356,7 +356,7 @@ describe("canonicalizeOASV3 Helpers", () => {
     });
 
     describe("extractDocMetadata", () => {
-        test("should extract documentation metadata", () => {
+        test("문서 메타데이터를 추출한다", () => {
             const op: any = {
                 operationId: "op1",
                 summary: "summary",
