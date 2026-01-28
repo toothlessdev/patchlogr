@@ -19,7 +19,18 @@
                 "package.json",
                 "tsconfig.json"
             ],
-            "outputs": []
+            "outputs": [".coverage/**"]
+        },
+        "test:coverage": {
+            "dependsOn": ["^build"],
+            "inputs": [
+                "src/**",
+                "test/**",
+                "vitest.config.*",
+                "package.json",
+                "tsconfig.json"
+            ],
+            "outputs": [".coverage/**"]
         },
         "typecheck": {
             "dependsOn": ["^build"],

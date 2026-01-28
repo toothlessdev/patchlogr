@@ -24,3 +24,4 @@ dist
 
 # test files
 .coverage
+coverage

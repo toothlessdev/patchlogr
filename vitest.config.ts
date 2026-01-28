@@ -19,7 +19,7 @@ export default defineConfig({
             enabled: false,
             provider: "v8",
             reporter: ["text", "html", "lcov"],
-            reportsDirectory: "./coverage",
+            reportsDirectory: "./.coverage",
         },
         reporters: ["default", "junit", "json", "html"],
         outputFile: {
