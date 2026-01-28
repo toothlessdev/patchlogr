@@ -15,6 +15,7 @@
         "build": "yarn clean && yarn build:types && yarn build:js",
         "preview": "node dist/index.js",
         "test": "vitest",
+        "test:coverage": "vitest run --coverage",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix"
     },

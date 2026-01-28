@@ -21,6 +21,7 @@
         "build:js": "node ./esbuild.mjs",
         "build": "yarn clean && yarn build:types && yarn build:js",
         "test": "vitest",
+        "test:coverage": "vitest run --coverage",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix"
     },

@@ -9,6 +9,7 @@
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "test": "vitest",
+        "test:coverage": "vitest run --coverage",
         "typecheck": "tsc --noEmit",
         "build:types": "tsc -p tsconfig.json --emitDeclarationOnly",
         "build:js": "node ./esbuild.mjs",
