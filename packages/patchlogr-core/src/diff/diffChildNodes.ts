@@ -14,24 +14,23 @@ export function diffChildNodes<K, V>(
     path: ChangePath<K>,
 ): {
     changes: SpecChange<K, V>[];
-    modifiedPairs: Array<{ base: HashNode<K, V>; head: HashNode<K, V> }>;
+    modifiedPairs: Array<{
+        base: HashNode<K, V>;
+        head: HashNode<K, V>;
+    }>;
 } {
     const changes: SpecChange<K, V>[] = [];
-    const modifiedPairs: Array<{ base: HashNode<K, V>; head: HashNode<K, V> }> =
-        [];
+    const modifiedPairs: Array<{
+        base: HashNode<K, V>;
+        head: HashNode<K, V>;
+    }> = [];
 
-    const baseChildren = base.children ?? [];
-    const headChildren = head.children ?? [];
-
-    const baseChildMap = new Map<K, HashNode<K, V>>();
-    const headChildMap = new Map<K, HashNode<K, V>>();
-
-    for (const child of baseChildren) {
-        baseChildMap.set(child.key, child);
-    }
-    for (const child of headChildren) {
-        headChildMap.set(child.key, child);
-    }
+    const baseChildMap = new Map(
+        base.children?.map((child) => [child.key, child]),
+    );
+    const headChildMap = new Map(
+        head.children?.map((child) => [child.key, child]),
+    );
 
     // Removed children (base에만 존재)
     for (const [key, baseChild] of baseChildMap) {
