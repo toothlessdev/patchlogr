@@ -64,8 +64,8 @@ jobs:
             - name: Run Lint
               run: yarn lint
 
-            - name: Run Tests
-              run: yarn test
+            - name: Run Tests with Coverage
+              run: yarn test:coverage
 
             - name: Report Test Logs
               uses: dorny/test-reporter@v1
@@ -84,6 +84,15 @@ jobs:
                       **/.coverage/report.xml
                       **/coverage/**/*
                   retention-days: 7
+
+            - name: Upload coverage to Codecov
+              uses: codecov/codecov-action@v5
+              if: (!cancelled())
+              with:
+                  token: ${{ secrets.CODECOV_TOKEN }}
+                  files: packages/**/.coverage/lcov.info
+                  fail_ci_if_error: false
+                  verbose: true
 
             - name: Publish Test Results
               uses: EnricoMi/publish-unit-test-result-action@v2
