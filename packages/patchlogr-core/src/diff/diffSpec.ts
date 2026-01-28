@@ -1,4 +1,4 @@
-import { PartitionedSpec } from "../partition/index.js";
+import type { PartitionedSpec } from "../partition/index.js";
 import type { SpecChangeSet } from "./diffChangeSet.js";
 import { diffNode } from "./diffNode.js";
 
