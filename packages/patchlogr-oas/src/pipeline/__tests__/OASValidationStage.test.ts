@@ -29,7 +29,7 @@ const invalidOasFixture = {
 };
 
 describe("SwaggerValidationStage", () => {
-    test("should parse version 3.0.x correctly", async () => {
+    test("3.0.x 버전을 파싱한다", async () => {
         const swaggerValidationStage = new OASValidationStage();
         const input: OASStageContext = {
             source: "",
@@ -39,7 +39,7 @@ describe("SwaggerValidationStage", () => {
         expect(result.oasVersion).toBe("3.0.1");
     });
 
-    test("should parse version 2.0 correctly", async () => {
+    test("2.0 버전을 파싱한다", async () => {
         const swaggerValidationStage = new OASValidationStage();
         const input: OASStageContext = {
             source: "",
@@ -49,7 +49,7 @@ describe("SwaggerValidationStage", () => {
         expect(result.oasVersion).toBe("2.0");
     });
 
-    test("should parse version 3.1 correctly", async () => {
+    test("3.1 버전을 파싱한다", async () => {
         const swaggerValidationStage = new OASValidationStage();
         const input: OASStageContext = {
             source: "",
@@ -59,7 +59,7 @@ describe("SwaggerValidationStage", () => {
         expect(result.oasVersion).toBe("3.1.0");
     });
 
-    test("should validate a correct OAS document", async () => {
+    test("올바른 OAS 문서를 검증한다", async () => {
         expect(async () => {
             const swaggerValidationStage = new OASValidationStage();
             const input: OASStageContext = {
@@ -70,7 +70,7 @@ describe("SwaggerValidationStage", () => {
         }).not.toThrow();
     });
 
-    test("should throw an error for invalid OAS document", async () => {
+    test("올바르지 않은 OAS 문서를 검증한다", async () => {
         expect(async () => {
             const swaggerValidationStage = new OASValidationStage();
             const input: OASStageContext = {
@@ -80,7 +80,7 @@ describe("SwaggerValidationStage", () => {
             await swaggerValidationStage.execute(input);
         }).rejects.toThrow("Invalid OpenAPI Specification");
     });
-    test("should throw an error if input.oas is missing", async () => {
+    test("input.oas가 없으면 에러를 던진다", async () => {
         const swaggerValidationStage = new OASValidationStage();
         const input: OASStageContext = {
             source: "{}",
@@ -92,7 +92,7 @@ describe("SwaggerValidationStage", () => {
         );
     });
 
-    test("should update context with validated oas object", async () => {
+    test("검증된 oas object를 context에 업데이트한다", async () => {
         const swaggerValidationStage = new OASValidationStage();
         const input: OASStageContext = {
             source: "{}",

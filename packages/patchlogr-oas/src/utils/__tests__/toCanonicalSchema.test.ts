@@ -3,7 +3,7 @@ import { toCanonicalSchema } from "../toCanonicalSchema";
 import type { OpenAPISchemaObjectWithItems } from "../../guards/schemaGuards";
 
 describe("toCanonicalSchema", () => {
-    test("should normalize simple schema", () => {
+    test("schema를 canonical schema로 변환한다", () => {
         const input = {
             type: "object",
             required: ["id"],
@@ -28,7 +28,7 @@ describe("toCanonicalSchema", () => {
         });
     });
 
-    test("should normalize schema with nested properties", () => {
+    test("nested properties를 canonical schema로 변환한다", () => {
         const input = {
             type: "object",
             properties: {
@@ -66,7 +66,7 @@ describe("toCanonicalSchema", () => {
         });
     });
 
-    test("should normalize schema with nested arrays", () => {
+    test("nested arrays를 canonical schema로 변환한다", () => {
         const input = {
             type: "object",
             properties: {
@@ -108,7 +108,7 @@ describe("toCanonicalSchema", () => {
         });
     });
 
-    test("should normalize schema with tuple items (array of schemas)", () => {
+    test("tuple items (array of schemas)를 canonical schema로 변환한다", () => {
         const input: OpenAPISchemaObjectWithItems = {
             type: "array",
             items: [{ type: "string" }, { type: "integer" }],

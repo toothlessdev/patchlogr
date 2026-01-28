@@ -27,7 +27,8 @@
     "dependencies": {
         "@apidevtools/swagger-parser": "^12.1.0",
         "@patchlogr/oas": "workspace:^",
-        "@patchlogr/types": "workspace:^"
+        "@patchlogr/types": "workspace:^",
+        "fast-json-stable-stringify": "^2.1.0"
     },
     "devDependencies": {
         "@types/node": "^25.0.9",

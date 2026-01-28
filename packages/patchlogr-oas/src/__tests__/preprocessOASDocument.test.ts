@@ -68,7 +68,7 @@ const docV3: OpenAPIV3.Document = {
 };
 
 describe("preprocessOASDocument Integration", () => {
-    test("Pipeline handles OAS 2.0 with refs correctly", async () => {
+    test("OAS 2.0 문서를 canonical spec으로 변환한다", async () => {
         const result = await preprocessOASDocument(docV2);
 
         const expectedSpec = {
@@ -111,7 +111,7 @@ describe("preprocessOASDocument Integration", () => {
         expect(result.canonicalSpec).toEqual(expectedSpec);
     });
 
-    test("Pipeline handles OAS 3.0 with refs correctly", async () => {
+    test("OAS 3.0 문서를 canonical spec으로 변환한다", async () => {
         const result = await preprocessOASDocument(docV3);
 
         const expectedSpec = {

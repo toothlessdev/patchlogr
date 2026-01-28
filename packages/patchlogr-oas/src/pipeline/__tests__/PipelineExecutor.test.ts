@@ -3,7 +3,7 @@ import type { PipelineStage } from "../PipelineExecutor";
 import { PipelineExecutor } from "../PipelineExecutor";
 
 describe("PipelineExecutor", () => {
-    test("should append stages correctly", () => {
+    test("stages 들을 올바르게 추가한다", () => {
         class Pipe1 implements PipelineStage<unknown> {
             execute(input: unknown): Promise<unknown> {
                 return Promise.resolve(input);
@@ -24,7 +24,7 @@ describe("PipelineExecutor", () => {
         expect(executor.stages[1]).toBeInstanceOf(Pipe2);
     });
 
-    test("should execute stages in order", async () => {
+    test("stages를 올바른 순서로 실행한다", async () => {
         const pipe1ExecuteFn = vitest.fn();
         const pipe2ExecuteFn = vitest.fn();
 
