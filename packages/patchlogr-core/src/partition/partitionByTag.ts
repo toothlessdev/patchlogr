@@ -6,7 +6,7 @@ import type {
 import type { PartitionedSpec, HashNode } from "./partition";
 
 import { createSHA256Hash } from "../utils/createHash";
-import { stableStringify } from "../utils/stableStringify";
+import stableStringify from "fast-json-stable-stringify";
 
 export const DEFAULT_TAG = "__DEFAULT__";
 
