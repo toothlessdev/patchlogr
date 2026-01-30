@@ -112,4 +112,80 @@ describe("partitionByTag", () => {
         expect(defaultTagNode?.children).toHaveLength(1);
         expect(defaultTagNode?.children?.[0]?.key).toBe("GET /user");
     });
+
+    test("hashObjects를 리턴한다", () => {
+        const spec: CanonicalSpec = {
+            operations: {
+                "GET /user": {
+                    key: "GET /user",
+                    doc: { tags: ["user"] },
+                    method: "GET",
+                    path: "/user",
+                    request: { params: [] },
+                    responses: {},
+                },
+                "POST /user": {
+                    key: "POST /user",
+                    doc: { tags: ["user"] },
+                    method: "POST",
+                    path: "/user",
+                    request: { params: [] },
+                    responses: {},
+                },
+            },
+        };
+
+        const result = partitionByTag(spec);
+
+        expect(result.hashObjects).toBeDefined();
+        expect(result.hashObjects).toHaveLength(2);
+    });
+
+    test("리프노드에는 value가 포함되지 않는다", () => {
+        const spec: CanonicalSpec = {
+            operations: {
+                "GET /user": {
+                    key: "GET /user",
+                    doc: { tags: ["user"] },
+                    method: "GET",
+                    path: "/user",
+                    request: { params: [] },
+                    responses: {},
+                },
+            },
+        };
+
+        const result = partitionByTag(spec);
+        const leafNode = result.root.children?.[0]?.children?.[0];
+
+        expect(leafNode?.type).toBe("leaf");
+        expect(leafNode?.hash).toBeDefined();
+        expect(leafNode?.value).toBeUndefined();
+    });
+
+    test("hashObjects에 리프노드에 대한 CanonicalOperation 이 매핑된다", () => {
+        const operation = {
+            key: "GET /user" as const,
+            doc: { tags: ["user"] },
+            method: "GET" as const,
+            path: "/user",
+            request: { params: [] },
+            responses: {},
+        };
+
+        const spec: CanonicalSpec = {
+            operations: {
+                "GET /user": operation,
+            },
+        };
+
+        const result = partitionByTag(spec);
+        const leafNode = result.root.children?.[0]?.children?.[0];
+        const hashObject = result.hashObjects.find(
+            (ho) => ho.hash === leafNode?.hash,
+        );
+
+        expect(hashObject).toBeDefined();
+        expect(hashObject?.data).toEqual(operation);
+    });
 });

@@ -3,7 +3,10 @@ import type {
     HTTPMethod,
     CanonicalOperation,
 } from "@patchlogr/types";
-import type { PartitionedSpec, HashNode } from "./partition";
+
+import type { HashNode } from "./types/hashNode";
+import type { PartitionedSpec } from "./types/partitionedSpec";
+import type { HashObject } from "./types/hashObject";
 
 import { createSHA256Hash } from "../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";
@@ -15,6 +18,7 @@ export function partitionByMethod(
         HTTPMethod,
         Array<{ key: string; operation: CanonicalOperation }>
     >();
+    const hashObjects: HashObject<CanonicalOperation>[] = [];
 
     Object.entries(spec.operations).forEach(([key, operation]) => {
         if (!methodGroups.has(operation.method)) {
@@ -30,12 +34,15 @@ export function partitionByMethod(
 
     methodGroups.forEach((operations, method) => {
         const operationLeaves: HashNode<string, CanonicalOperation>[] =
-            operations.map(({ key, operation }) => ({
-                type: "leaf",
-                key,
-                hash: createSHA256Hash(stableStringify(operation)),
-                value: operation,
-            }));
+            operations.map(({ key, operation }) => {
+                const hash = createSHA256Hash(stableStringify(operation));
+                hashObjects.push({ hash, data: operation });
+                return {
+                    type: "leaf" as const,
+                    key,
+                    hash,
+                };
+            });
 
         const methodHash = createSHA256Hash(
             stableStringify(operationLeaves.map((leaf) => leaf.hash)),
@@ -66,5 +73,6 @@ export function partitionByMethod(
             ...spec.info,
             ...spec.security,
         },
+        hashObjects,
     };
 }

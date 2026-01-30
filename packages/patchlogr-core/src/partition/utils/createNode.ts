@@ -1,5 +1,5 @@
-import type { HashNode } from "./partition";
-import { createSHA256Hash } from "../utils/createHash";
+import type { HashNode } from "../types/hashNode";
+import { createSHA256Hash } from "../../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";
 
 export function createNode<K, V>(
