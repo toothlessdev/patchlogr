@@ -7,25 +7,16 @@ import type { ChangePath, SpecChange } from "./diffChangeSet.js";
  * @param head 비교 대상 leaf 노드
  * @param path 현재 경로 (base.key 포함)
  */
-export function diffLeafNodes<K, V>(
-    base: HashNode<K, V>,
-    head: HashNode<K, V>,
+export function diffLeafNodes<K>(
+    base: HashNode<K>,
+    head: HashNode<K>,
     path: ChangePath<K>,
-): SpecChange<K, V> {
-    const change: SpecChange<K, V> = {
+): SpecChange<K> {
+    return {
         type: "modified",
         path,
         key: base.key,
         baseHash: base.hash,
         headHash: head.hash,
     };
-
-    if (base.value !== undefined) {
-        change.baseValue = base.value;
-    }
-    if (head.value !== undefined) {
-        change.headValue = head.value;
-    }
-
-    return change;
 }

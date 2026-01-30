@@ -62,22 +62,6 @@ describe("diffChildNodes", () => {
                 baseNodeType: "node",
             });
         });
-
-        test("removed leaf의 value가 있으면 baseValue 포함", () => {
-            const removedChild = createLeafNode("item", "hash-removed", {
-                data: "value",
-            });
-            const base = createNode("root", "hash-old", [removedChild]);
-            const head = createNode("root", "hash-new", []);
-
-            if (base.type !== "node" || head.type !== "node") {
-                throw new Error("Expected node types");
-            }
-
-            const result = diffChildNodes(base, head, ["root"]);
-
-            expect(result.changes[0]?.baseValue).toEqual({ data: "value" });
-        });
     });
 
     describe("added detection (head에만 존재)", () => {
@@ -138,22 +122,6 @@ describe("diffChildNodes", () => {
                 key: "subtree",
                 headNodeType: "node",
             });
-        });
-
-        test("added leaf의 value가 있으면 headValue 포함", () => {
-            const addedChild = createLeafNode("item", "hash-added", {
-                data: "value",
-            });
-            const base = createNode("root", "hash-old", []);
-            const head = createNode("root", "hash-new", [addedChild]);
-
-            if (base.type !== "node" || head.type !== "node") {
-                throw new Error("Expected node types");
-            }
-
-            const result = diffChildNodes(base, head, ["root"]);
-
-            expect(result.changes[0]?.headValue).toEqual({ data: "value" });
         });
     });
 

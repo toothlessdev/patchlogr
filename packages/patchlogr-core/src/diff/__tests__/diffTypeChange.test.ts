@@ -39,59 +39,6 @@ describe("diffTypeChange", () => {
         expect(result.headNodeType).toBe("node");
     });
 
-    test("base가 leaf일 때 baseValue 포함", () => {
-        const baseValue = { data: "original" };
-        const base = createLeafNode<string, unknown>(
-            "item",
-            "hash-leaf",
-            baseValue,
-        );
-        const head = createNode<string, unknown>("item", "hash-node", []);
-
-        const result = diffTypeChange(base, head, ["root", "item"]);
-
-        expect(result.baseValue).toEqual(baseValue);
-        expect(result.headValue).toBeUndefined();
-    });
-
-    test("head가 leaf일 때 headValue 포함", () => {
-        const headValue = { data: "collapsed" };
-        const base = createNode<string, unknown>("item", "hash-node", []);
-        const head = createLeafNode<string, unknown>(
-            "item",
-            "hash-leaf",
-            headValue,
-        );
-
-        const result = diffTypeChange(base, head, ["root", "item"]);
-
-        expect(result.baseValue).toBeUndefined();
-        expect(result.headValue).toEqual(headValue);
-    });
-
-    test("양쪽 모두 leaf에서 다른 leaf일 때", () => {
-        const baseValue = { v: 1 };
-        const headValue = { v: 2 };
-        const base = createLeafNode<string, unknown>(
-            "item",
-            "hash-old",
-            baseValue,
-        );
-        const head = createLeafNode<string, unknown>(
-            "item",
-            "hash-new",
-            headValue,
-        );
-
-        const result = diffTypeChange(base, head, ["root", "item"]);
-
-        expect(result.type).toBe("type_changed");
-        expect(result.baseNodeType).toBe("leaf");
-        expect(result.headNodeType).toBe("leaf");
-        expect(result.baseValue).toEqual(baseValue);
-        expect(result.headValue).toEqual(headValue);
-    });
-
     test("path는 전달받은 그대로 사용", () => {
         const base = createNode<string, unknown>("target", "hash-node", []);
         const head = createLeafNode<string, unknown>("target", "hash-leaf", {});
