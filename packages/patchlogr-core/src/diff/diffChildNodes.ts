@@ -8,21 +8,21 @@ import type { ChangePath, SpecChange } from "./diffChangeSet.js";
  * @param head 비교 대상 node
  * @param path 현재 경로 (base.key 포함)
  */
-export function diffChildNodes<K, V>(
-    base: HashNode<K, V>,
-    head: HashNode<K, V>,
+export function diffChildNodes<K>(
+    base: HashNode<K>,
+    head: HashNode<K>,
     path: ChangePath<K>,
 ): {
-    changes: SpecChange<K, V>[];
+    changes: SpecChange<K>[];
     modifiedPairs: Array<{
-        base: HashNode<K, V>;
-        head: HashNode<K, V>;
+        base: HashNode<K>;
+        head: HashNode<K>;
     }>;
 } {
-    const changes: SpecChange<K, V>[] = [];
+    const changes: SpecChange<K>[] = [];
     const modifiedPairs: Array<{
-        base: HashNode<K, V>;
-        head: HashNode<K, V>;
+        base: HashNode<K>;
+        head: HashNode<K>;
     }> = [];
 
     const baseChildMap = new Map(
@@ -36,18 +36,13 @@ export function diffChildNodes<K, V>(
     for (const [key, baseChild] of baseChildMap) {
         if (!headChildMap.has(key)) {
             const childPath = [...path, key];
-            const change: SpecChange<K, V> = {
+            changes.push({
                 type: "removed",
                 path: childPath,
                 key: key,
                 baseHash: baseChild.hash,
                 baseNodeType: baseChild.type,
-            };
-
-            if (baseChild.type === "leaf" && baseChild.value !== undefined) {
-                change.baseValue = baseChild.value;
-            }
-            changes.push(change);
+            });
         }
     }
 
@@ -55,18 +50,13 @@ export function diffChildNodes<K, V>(
     for (const [key, headChild] of headChildMap) {
         if (!baseChildMap.has(key)) {
             const childPath = [...path, key];
-            const change: SpecChange<K, V> = {
+            changes.push({
                 type: "added",
                 path: childPath,
                 key: key,
                 headHash: headChild.hash,
                 headNodeType: headChild.type,
-            };
-
-            if (headChild.type === "leaf" && headChild.value !== undefined) {
-                change.headValue = headChild.value;
-            }
-            changes.push(change);
+            });
         }
     }
 

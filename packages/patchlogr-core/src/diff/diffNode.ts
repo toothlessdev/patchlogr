@@ -4,12 +4,12 @@ import { diffLeafNodes } from "./diffLeafNodes";
 import { diffTypeChange } from "./diffTypeChange";
 import { diffChildNodes } from "./diffChildNodes";
 
-export function diffNode<K, V>(
-    base: HashNode<K, V>,
-    head: HashNode<K, V>,
+export function diffNode<K>(
+    base: HashNode<K>,
+    head: HashNode<K>,
     path: ChangePath<K> = [],
-): SpecChangeSet<K, V> {
-    const changes: SpecChange<K, V>[] = [];
+): SpecChangeSet<K> {
+    const changes: SpecChange<K>[] = [];
     const currentPath = [...path, base.key];
 
     if (base.hash === head.hash) {

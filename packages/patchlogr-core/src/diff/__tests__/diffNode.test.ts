@@ -31,23 +31,6 @@ describe("diffNode", () => {
         });
     });
 
-    test("둘 다 leaf인데 key가 동일하고 hash가 다른 경우 modified 1건 + value 포함", () => {
-        const baseValue = { email: "old@test.com" };
-        const headValue = { email: "new@test.com" };
-        const base = createLeafNode("config", "hash-v1", baseValue);
-        const head = createLeafNode("config", "hash-v2", headValue);
-
-        const result = diffNode(base, head);
-
-        expect(result.changes).toHaveLength(1);
-        expect(result.changes[0]).toMatchObject({
-            type: "modified",
-            key: "config",
-            baseValue,
-            headValue,
-        });
-    });
-
     test("base와 head가 둘 다 node이고 hash가 다른 경우 children을 key 기준으로 비교", () => {
         const baseChild = createLeafNode("child1", "hash-child-old", {
             v: 1,
@@ -227,7 +210,7 @@ describe("diffNode", () => {
         });
     });
 
-    test("D13: base가 leaf이고 head가 node인 경우 type_changed 1건", () => {
+    test("base가 leaf이고 head가 node인 경우 type_changed 1건", () => {
         const child = createLeafNode("child", "hash-child", { v: 1 });
         const base = createLeafNode<string, unknown>("target", "hash-leaf", {
             v: "simple",
@@ -250,7 +233,7 @@ describe("diffNode", () => {
     });
 });
 
-describe("Path / key 기록 규칙", () => {
+describe("path / key", () => {
     test("모든 change에는 path가 있어야 함 (root부터 변화 노드까지)", () => {
         const baseLeaf = createLeafNode("endpoint", "hash-old", {
             method: "GET",
