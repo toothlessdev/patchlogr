@@ -1,4 +1,5 @@
-export type { Hash, HashNode, PartitionedSpec } from "./partition";
+export type { Hash, HashNode } from "./types/hashNode";
+export type { PartitionedSpec } from "./types/partitionedSpec";
 
 export { partitionByMethod } from "./partitionByMethod";
 export { partitionByTag } from "./partitionByTag";
@@ -8,4 +9,4 @@ export {
     createLeafNode,
     createHashedLeaf,
     createHashedNode,
-} from "./createNode";
+} from "./utils/createNode";

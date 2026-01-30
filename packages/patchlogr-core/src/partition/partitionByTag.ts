@@ -1,9 +1,8 @@
-import type {
-    CanonicalSpec,
-    CanonicalOperation,
-    OperationKey,
-} from "@patchlogr/types";
-import type { PartitionedSpec, HashNode } from "./partition";
+import type { CanonicalSpec, CanonicalOperation } from "@patchlogr/types";
+
+import type { PartitionedSpec } from "./types/partitionedSpec";
+import type { HashNode } from "./types/hashNode";
+import type { HashObject } from "./types/hashObject";
 
 import { createSHA256Hash } from "../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";
@@ -17,6 +16,7 @@ export function partitionByTag(
         string,
         Array<{ key: string; operation: CanonicalOperation }>
     >();
+    const hashObjects: HashObject<CanonicalOperation>[] = [];
 
     Object.entries(spec.operations).forEach(([key, operation]) => {
         const tag = operation.doc?.tags?.[0] || DEFAULT_TAG;
@@ -25,7 +25,7 @@ export function partitionByTag(
             tagGroups.set(tag, []);
         }
         tagGroups.get(tag)?.push({
-            key: key as OperationKey,
+            key: key,
             operation,
         });
     });
@@ -34,12 +34,15 @@ export function partitionByTag(
 
     tagGroups.forEach((operations, tag) => {
         const operationLeaves: HashNode<string, CanonicalOperation>[] =
-            operations.map(({ key, operation }) => ({
-                type: "leaf",
-                key,
-                hash: createSHA256Hash(stableStringify(operation)),
-                value: operation,
-            }));
+            operations.map(({ key, operation }) => {
+                const hash = createSHA256Hash(stableStringify(operation));
+                hashObjects.push({ hash, data: operation });
+                return {
+                    type: "leaf",
+                    key,
+                    hash,
+                };
+            });
 
         const tagHash = createSHA256Hash(
             stableStringify(operationLeaves.map((leaf) => leaf.hash)),
@@ -70,5 +73,6 @@ export function partitionByTag(
             ...spec.info,
             ...spec.security,
         },
+        hashObjects,
     };
 }
