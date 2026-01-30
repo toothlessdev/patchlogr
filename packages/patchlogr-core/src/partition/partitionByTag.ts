@@ -1,8 +1,8 @@
 import type { CanonicalSpec, CanonicalOperation } from "@patchlogr/types";
 
-import type { PartitionedSpec } from "./types/partitionedSpec";
-import type { HashNode } from "./types/hashNode";
-import type { HashObject } from "./types/hashObject";
+import type { PartitionedSpec } from "./types/PartitionedSpec";
+import type { HashNode } from "./types/HashNode";
+import type { HashObject } from "./types/HashObject";
 
 import { createSHA256Hash } from "../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";

@@ -4,9 +4,9 @@ import type {
     CanonicalOperation,
 } from "@patchlogr/types";
 
-import type { HashNode } from "./types/hashNode";
-import type { PartitionedSpec } from "./types/partitionedSpec";
-import type { HashObject } from "./types/hashObject";
+import type { HashNode } from "./types/HashNode";
+import type { PartitionedSpec } from "./types/PartitionedSpec";
+import type { HashObject } from "./types/HashObject";
 
 import { createSHA256Hash } from "../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";
@@ -38,7 +38,7 @@ export function partitionByMethod(
                 const hash = createSHA256Hash(stableStringify(operation));
                 hashObjects.push({ hash, data: operation });
                 return {
-                    type: "leaf" as const,
+                    type: "leaf",
                     key,
                     hash,
                 };

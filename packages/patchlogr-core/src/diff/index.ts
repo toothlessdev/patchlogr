@@ -4,3 +4,4 @@ export * from "./diffLeafNodes";
 export * from "./diffTypeChange";
 export * from "./diffChildNodes";
 export * from "./diffSpec";
+export * from "./detectVersionBump";

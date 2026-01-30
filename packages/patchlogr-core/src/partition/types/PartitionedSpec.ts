@@ -1,5 +1,5 @@
-import type { HashNode } from "./hashNode";
-import type { HashObject } from "./hashObject";
+import type { HashNode } from "./HashNode";
+import type { HashObject } from "./HashObject";
 
 export type PartitionedSpec<K = string, V = unknown> = {
     root: HashNode<K, V>;

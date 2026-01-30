@@ -1,4 +1,4 @@
-import type { HashNode } from "../types/hashNode";
+import type { HashNode } from "../types/HashNode";
 import { createSHA256Hash } from "../../utils/createHash";
 import stableStringify from "fast-json-stable-stringify";
 
