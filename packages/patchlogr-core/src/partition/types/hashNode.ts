@@ -7,8 +7,3 @@ export type HashNode<K = string, V = unknown> = {
     children?: HashNode<K, V>[];
     value?: V;
 };
-
-export type PartitionedSpec<K = string, V = unknown> = {
-    root: HashNode<K, V>;
-    metadata: Record<string, unknown>;
-};
