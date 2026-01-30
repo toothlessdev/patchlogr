@@ -1,0 +1,23 @@
+{
+  "hooks": {
+    "pre-commit": "yarn lint && yarn typecheck && yarn test"
+  },
+  "permissions": {
+    "allowedCommands": [
+      "yarn build",
+      "yarn test",
+      "yarn test:coverage",
+      "yarn lint",
+      "yarn lint:fix",
+      "yarn typecheck",
+      "yarn clean",
+      "git status",
+      "git diff",
+      "git log",
+      "git branch",
+      "ls",
+      "cat",
+      "pwd"
+    ]
+  }
+}
