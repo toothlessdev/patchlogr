@@ -1,8 +1,10 @@
-name: Continuous Integration
+name: CI/CD Pipeline
 
 on:
     pull_request:
         types: [opened, synchronize]
+    push:
+        branches: [main]
     workflow_dispatch:
 
 permissions:
@@ -67,6 +69,25 @@ jobs:
             - name: Run Tests with Coverage
               run: yarn test:coverage
 
+            - name: Build All Packages
+              run: yarn build
+
+            - name: Upload Inspector Client Build
+              uses: actions/upload-artifact@v4
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              with:
+                  name: inspector-client-dist
+                  path: packages/patchlogr-inspector/client/dist
+                  retention-days: 1
+
+            - name: Upload Inspector Server Build
+              uses: actions/upload-artifact@v4
+              if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+              with:
+                  name: inspector-server-dist
+                  path: packages/patchlogr-inspector/server/dist
+                  retention-days: 1
+
             - name: Report Test Logs
               uses: dorny/test-reporter@v1
               if: (!cancelled())
@@ -99,3 +120,44 @@ jobs:
               if: (!cancelled())
               with:
                   files: "**/.coverage/report.xml"
+
+    deploy-client:
+        name: Deploy Inspector Client
+        needs: build-and-test
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Download Client Build Artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: inspector-client-dist
+                  path: dist
+
+            - name: Deploy to Hosting
+              run: |
+                  echo "Client build files downloaded to ./dist"
+                  ls -la dist/
+                  # TODO: 배포 step 추가 필요
+
+    deploy-server:
+        name: Deploy Inspector Server
+        needs: build-and-test
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Code
+              uses: actions/checkout@v4
+
+            - name: Download Server Build Artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: inspector-server-dist
+                  path: packages/patchlogr-inspector/server/dist
+
+            - name: Deploy to Server
+              run: |
+                  echo "Server build files downloaded"
+                  ls -la packages/patchlogr-inspector/server/dist/
+                  # TODO: 배포 step 추가 필요

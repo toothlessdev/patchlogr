@@ -3,7 +3,8 @@
     "private": true,
     "packageManager": "yarn@4.12.0",
     "workspaces": [
-        "packages/*"
+        "packages/*",
+        "packages/patchlogr-inspector/*"
     ],
     "scripts": {
         "dev": "turbo run dev --cache-dir=.turbo",
@@ -13,10 +14,15 @@
         "lint": "turbo run lint --cache-dir=.turbo",
         "lint:fix": "turbo run lint:fix --cache-dir=.turbo",
         "typecheck": "turbo run typecheck --cache-dir=.turbo",
-        "clean": "turbo run clean && rm -rf node_modules .turbo"
+        "clean": "turbo run clean && rm -rf node_modules .turbo",
+        "inspector:dev": "turbo run dev --filter='./packages/patchlogr-inspector/*' --parallel",
+        "inspector:build": "turbo run build --filter='./packages/patchlogr-inspector/*'",
+        "inspector:test": "turbo run test --filter='./packages/patchlogr-inspector/*'",
+        "inspector:lint": "turbo run lint --filter='./packages/patchlogr-inspector/*'"
     },
     "devDependencies": {
         "@eslint/js": "^9.39.2",
+        "@nestjs/cli": "^11.0.16",
         "@types/node": "24",
         "@typescript-eslint/eslint-plugin": "^8.51.0",
         "@typescript-eslint/parser": "^8.51.0",
