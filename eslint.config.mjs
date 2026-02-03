@@ -85,4 +85,11 @@ export default tseslint.config(
             ],
         },
     },
+    {
+        // NestJS Decorator 를 위해 타입 임포트 규칙 해제
+        files: ["packages/patchlogr-inspector/server/src/**/*.ts"],
+        rules: {
+            "@typescript-eslint/consistent-type-imports": "off",
+        },
+    },
 );
