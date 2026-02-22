@@ -64,19 +64,15 @@ export async function diffAction(
     const specChangeSet = diffSpec(partitionedBase, partitionedHead);
     const versionBump = detectVersionBump(specChangeSet);
 
+    const result = { specChangeSet, versionBump };
+
     if (options.output === "stdout" || options.output === undefined) {
-        console.log(JSON.stringify(specChangeSet, null, 2));
-        console.log(JSON.stringify(versionBump, null, 2));
+        console.log(JSON.stringify(result, null, 2));
     } else {
         try {
             await fs.writeFile(
-                options.output.concat(".json"),
-                JSON.stringify(specChangeSet, null, 2),
-                "utf-8",
-            );
-            await fs.writeFile(
-                options.output.concat(".version.json"),
-                JSON.stringify(versionBump, null, 2),
+                options.output,
+                JSON.stringify(result, null, 2),
                 "utf-8",
             );
         } catch (error) {
