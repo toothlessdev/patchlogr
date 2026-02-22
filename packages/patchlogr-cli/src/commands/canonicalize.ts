@@ -11,7 +11,11 @@ export type CanonicalizeOptions = OASStageOptions & {
 
 export const canonicalizeCommand = new Command("canonicalize")
     .argument("<api-docs>", "Path to the OpenAPI specification file")
-    .option("--skipValidation", "Skip validation of the OpenAPI specification")
+    .option(
+        "--skipValidation",
+        "Skip validation of the OpenAPI specification",
+        true,
+    )
     .option(
         "-o, --output <file>",
         "Write result to file instead of stdout (default: stdout)",

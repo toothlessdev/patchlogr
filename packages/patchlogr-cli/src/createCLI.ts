@@ -3,6 +3,7 @@ import pkg from "../package.json";
 
 import { helpCommand } from "./commands/help";
 import { canonicalizeCommand } from "./commands/canonicalize";
+import { diffCommand } from "./commands/diff";
 
 export function createCLI() {
     return new Command()
@@ -10,5 +11,6 @@ export function createCLI() {
         .version(pkg.version)
         .description("PatchlogrCLI : changelogs from openapi specs")
         .addCommand(helpCommand)
-        .addCommand(canonicalizeCommand);
+        .addCommand(canonicalizeCommand)
+        .addCommand(diffCommand);
 }
