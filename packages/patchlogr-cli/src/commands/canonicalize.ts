@@ -1,7 +1,7 @@
 import { Command } from "commander";
 
-import { preprocessOASDocument } from "@patchlogr/oas";
-import { type OASStageOptions } from "@patchlogr/oas";
+import { preprocessOASDocument } from "@patchlogr/adapter-oas";
+import { type OASStageOptions } from "@patchlogr/adapter-oas";
 import type { OpenAPI } from "openapi-types";
 import fs from "fs/promises";
 

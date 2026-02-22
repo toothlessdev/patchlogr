@@ -1336,12 +1336,25 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@patchlogr/adapter-oas@workspace:^, @patchlogr/adapter-oas@workspace:packages/patchlogr-adapter-oas":
+  version: 0.0.0-use.local
+  resolution: "@patchlogr/adapter-oas@workspace:packages/patchlogr-adapter-oas"
+  dependencies:
+    "@apidevtools/swagger-parser": "npm:^12.1.0"
+    "@patchlogr/types": "workspace:^"
+    "@types/node": "npm:24"
+    esbuild: "npm:^0.27.2"
+    openapi-types: "npm:^12.1.3"
+    vitest: "npm:^4.0.16"
+  languageName: unknown
+  linkType: soft
+
 "@patchlogr/cli@workspace:packages/patchlogr-cli":
   version: 0.0.0-use.local
   resolution: "@patchlogr/cli@workspace:packages/patchlogr-cli"
   dependencies:
+    "@patchlogr/adapter-oas": "workspace:^"
     "@patchlogr/core": "workspace:^"
-    "@patchlogr/oas": "workspace:^"
     "@types/node": "npm:24"
     commander: "npm:^14.0.2"
     esbuild: "npm:^0.27.2"
@@ -1358,7 +1371,7 @@ __metadata:
   resolution: "@patchlogr/core@workspace:packages/patchlogr-core"
   dependencies:
     "@apidevtools/swagger-parser": "npm:^12.1.0"
-    "@patchlogr/oas": "workspace:^"
+    "@patchlogr/adapter-oas": "workspace:^"
     "@patchlogr/types": "workspace:^"
     "@types/node": "npm:^25.0.9"
     esbuild: "npm:^0.27.2"
@@ -1414,19 +1427,6 @@ __metadata:
     typescript: "npm:^5.1.3"
     unplugin-swc: "npm:^1.5.9"
     vitest: "npm:^4.0.18"
-  languageName: unknown
-  linkType: soft
-
-"@patchlogr/oas@workspace:^, @patchlogr/oas@workspace:packages/patchlogr-oas":
-  version: 0.0.0-use.local
-  resolution: "@patchlogr/oas@workspace:packages/patchlogr-oas"
-  dependencies:
-    "@apidevtools/swagger-parser": "npm:^12.1.0"
-    "@patchlogr/types": "workspace:^"
-    "@types/node": "npm:24"
-    esbuild: "npm:^0.27.2"
-    openapi-types: "npm:^12.1.3"
-    vitest: "npm:^4.0.16"
   languageName: unknown
   linkType: soft
 

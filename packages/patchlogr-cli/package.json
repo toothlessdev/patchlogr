@@ -20,8 +20,8 @@
         "lint:fix": "eslint . --fix"
     },
     "dependencies": {
+        "@patchlogr/adapter-oas": "workspace:^",
         "@patchlogr/core": "workspace:^",
-        "@patchlogr/oas": "workspace:^",
         "commander": "^14.0.2"
     },
     "devDependencies": {
