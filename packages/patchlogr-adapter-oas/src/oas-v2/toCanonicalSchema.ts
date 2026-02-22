@@ -1,6 +1,5 @@
 import { type CanonicalSchema } from "@patchlogr/types";
 import { type OpenAPIV2 } from "openapi-types";
-import type { OpenAPISchemaObjectWithCommonProps } from "../oas-common/schemaGuards";
 import { isSchemaObject } from "../oas-common/schemaGuards";
 
 export function toCanonicalSchema(

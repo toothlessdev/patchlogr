@@ -8,7 +8,7 @@ import {
 } from "@patchlogr/core";
 
 import { Command } from "commander";
-import { OpenAPI } from "openapi-types";
+import { type OpenAPI } from "openapi-types";
 
 import fs from "fs/promises";
 
